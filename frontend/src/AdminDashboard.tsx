@@ -91,9 +91,9 @@ export function TableQRCodeSVG({ size = 160, tableNumber = '08', color = '#143D2
       <rect x="68" y="70" width="6" height="6" fill={color} />
       <rect x="80" y="70" width="6" height="6" fill={color} />
       <rect x="74" y="82" width="6" height="6" fill={color} />
-      {/* Center GebetaQR Badge */}
+      {/* Center Zerfe Lounge Badge */}
       <rect x="38" y="38" width="24" height="24" rx="4" fill="#C69234" />
-      <text x="50" y="53" fill="#143D2B" fontSize="11" fontWeight="800" textAnchor="middle" fontFamily="sans-serif">GQ</text>
+      <text x="50" y="53" fill="#143D2B" fontSize="11" fontWeight="800" textAnchor="middle" fontFamily="sans-serif">ZL</text>
     </svg>
   );
 }
@@ -138,7 +138,7 @@ const defaultDishes: MenuItem[] = [
   { id: 2, name: 'Sizzling Beef Tibs', description: 'Tender beef sautéed with rosemary, peppers and fresh injera.', price: 720, category: 'Ethiopian Food', image: 'photo-1544025162-d76694265947', available: true, tag: 'Popular', portions: [{ name: 'Regular', price: 0 }, { name: 'Large', price: 200 }], extras: [{ name: 'Extra injera', price: 45 }, { name: 'Awaze sauce', price: 40 }] },
   { id: 3, name: 'The Garden Beyaynetu', description: 'Colourful combination of lentils and spiced vegetables on injera.', price: 460, category: 'Ethiopian Food', image: 'photo-1593252719532-53f183016149', available: true, tag: 'Plant-based' },
   { id: 4, name: 'Herb-Grilled Chicken', description: 'Flame-grilled chicken served with seasonal garden vegetables.', price: 650, category: 'Main Courses', image: 'photo-1670398564097-0762e1b30b3a', available: true },
-  { id: 5, name: 'Abay Signature Burger', description: 'Grilled beef patty, cheddar, caramelised onions and fries.', price: 580, category: 'Burgers', image: 'photo-1568901346375-23c9450c58cd', available: true, portions: [{ name: 'Single patty', price: 0 }, { name: 'Double patty', price: 160 }], extras: [{ name: 'Extra cheese', price: 50 }, { name: 'Extra fries', price: 90 }] },
+  { id: 5, name: 'Zerfe Signature Burger', description: 'Grilled beef patty, cheddar, caramelised onions and fries.', price: 580, category: 'Burgers', image: 'photo-1568901346375-23c9450c58cd', available: true, portions: [{ name: 'Single patty', price: 0 }, { name: 'Double patty', price: 160 }], extras: [{ name: 'Extra cheese', price: 50 }, { name: 'Extra fries', price: 90 }] },
   { id: 6, name: 'Garden Margherita', description: 'Stone-baked pizza dough, fresh tomatoes, mozzarella and basil.', price: 620, category: 'Pizza', image: 'photo-1574071318508-1cdbab80d002', available: true, tag: 'Vegetarian' },
   { id: 7, name: 'Fresh Mango Juice', description: 'Freshly squeezed sweet ripe mango with no added sugar.', price: 180, category: 'Drinks', image: 'photo-1622597467836-f3285f2131b8', available: true },
   { id: 8, name: 'Chocolate Indulgence', description: 'Warm chocolate cake with soft centre and vanilla ice cream.', price: 320, category: 'Desserts', image: 'photo-1578985545062-69928b1d9587', available: false, tag: 'Sold Out' },
@@ -169,8 +169,8 @@ export const initialStaff: StaffMember[] = [
   {
     id: 's1',
     name: 'Abebe Bekele',
-    email: 'abebe@abaykitchen.com',
-    phone: '+251 91 123 4567',
+    email: 'abebe@zerfelounge.et',
+    phone: '+251 92 123 4567',
     role: 'Owner',
     status: 'Active',
     dateAdded: '12 Jan 2026',
@@ -180,7 +180,7 @@ export const initialStaff: StaffMember[] = [
   {
     id: 's2',
     name: 'Selamawit Desta',
-    email: 'selam@abaykitchen.com',
+    email: 'selam@zerfelounge.et',
     phone: '+251 92 345 6789',
     role: 'Manager',
     status: 'Active',
@@ -191,8 +191,8 @@ export const initialStaff: StaffMember[] = [
   {
     id: 's3',
     name: 'Tigist Haile',
-    email: 'tigist@abaykitchen.com',
-    phone: '+251 93 456 7890',
+    email: 'tigist@zerfelounge.et',
+    phone: '+251 92 456 7890',
     role: 'Kitchen Staff',
     status: 'Active',
     dateAdded: '18 Jan 2026',
@@ -202,8 +202,8 @@ export const initialStaff: StaffMember[] = [
   {
     id: 's4',
     name: 'Dawit Tadesse',
-    email: 'dawit@abaykitchen.com',
-    phone: '+251 94 567 8901',
+    email: 'dawit@zerfelounge.et',
+    phone: '+251 92 567 8901',
     role: 'Waiter',
     status: 'Active',
     dateAdded: '20 Jan 2026',
@@ -213,8 +213,8 @@ export const initialStaff: StaffMember[] = [
   {
     id: 's5',
     name: 'Almaz Ayana',
-    email: 'almaz@abaykitchen.com',
-    phone: '+251 95 678 9012',
+    email: 'almaz@zerfelounge.et',
+    phone: '+251 92 678 9012',
     role: 'Cashier',
     status: 'Active',
     dateAdded: '22 Jan 2026',
@@ -448,7 +448,7 @@ export const reportsDataByPreset: Record<DateRangePreset, ReportDataset> = {
     topItems: [
       { id: 1, name: 'Doro Wat', category: 'Ethiopian Food', quantity: 24, salesAmount: 16320, sharePercent: 32.5 },
       { id: 2, name: 'Sizzling Beef Tibs', category: 'Ethiopian Food', quantity: 19, salesAmount: 13680, sharePercent: 27.2 },
-      { id: 5, name: 'Abay Signature Burger', category: 'Burgers', quantity: 14, salesAmount: 8120, sharePercent: 16.2 },
+      { id: 5, name: 'Zerfe Signature Burger', category: 'Burgers', quantity: 14, salesAmount: 8120, sharePercent: 16.2 },
       { id: 7, name: 'Fresh Mango Juice', category: 'Drinks', quantity: 28, salesAmount: 5040, sharePercent: 10.0 },
       { id: 3, name: 'The Garden Beyaynetu', category: 'Ethiopian Food', quantity: 9, salesAmount: 4140, sharePercent: 8.2 },
       { id: 9, name: 'Morning Shakshuka', category: 'Breakfast', quantity: 8, salesAmount: 2720, sharePercent: 5.4 }
@@ -463,7 +463,7 @@ export const reportsDataByPreset: Record<DateRangePreset, ReportDataset> = {
       { id: 'o1', reference: '#GQ-1048', time: '13:24', date: '17 Oct 2026', table: 'Dine-in', itemsSummary: '2× Doro Wat, 1× Tibs', total: 2080, status: 'Completed', paymentMethod: 'Telebirr' },
       { id: 'o2', reference: '#GQ-1047', time: '13:10', date: '17 Oct 2026', table: 'Table 02', itemsSummary: '1× Beyaynetu, 2× Mango Juice', total: 820, status: 'Completed', paymentMethod: 'Cash' },
       { id: 'o3', reference: '#GQ-1046', time: '12:55', date: '17 Oct 2026', table: 'Table 04', itemsSummary: '1× Beef Tibs, 1× Macchiato', total: 800, status: 'Completed', paymentMethod: 'CBE Birr' },
-      { id: 'o4', reference: '#GQ-1045', time: '12:42', date: '17 Oct 2026', table: 'Terrace 01', itemsSummary: '2× Abay Signature Burger', total: 1160, status: 'Completed', paymentMethod: 'Telebirr' },
+      { id: 'o4', reference: '#GQ-1045', time: '12:42', date: '17 Oct 2026', table: 'Terrace 01', itemsSummary: '2× Zerfe Signature Burger', total: 1160, status: 'Completed', paymentMethod: 'Telebirr' },
       { id: 'o5', reference: '#GQ-1044', time: '12:30', date: '17 Oct 2026', table: 'Table 10', itemsSummary: '4× Doro Wat, 4× Drinks', total: 3440, status: 'Completed', paymentMethod: 'Card' }
     ]
   },
@@ -494,7 +494,7 @@ export const reportsDataByPreset: Record<DateRangePreset, ReportDataset> = {
     topItems: [
       { id: 1, name: 'Doro Wat', category: 'Ethiopian Food', quantity: 21, salesAmount: 14280, sharePercent: 30.5 },
       { id: 2, name: 'Sizzling Beef Tibs', category: 'Ethiopian Food', quantity: 18, salesAmount: 12960, sharePercent: 27.8 },
-      { id: 5, name: 'Abay Signature Burger', category: 'Burgers', quantity: 12, salesAmount: 6960, sharePercent: 14.9 },
+      { id: 5, name: 'Zerfe Signature Burger', category: 'Burgers', quantity: 12, salesAmount: 6960, sharePercent: 14.9 },
       { id: 7, name: 'Fresh Mango Juice', category: 'Drinks', quantity: 24, salesAmount: 4320, sharePercent: 9.3 },
       { id: 3, name: 'The Garden Beyaynetu', category: 'Ethiopian Food', quantity: 10, salesAmount: 4600, sharePercent: 9.8 }
     ],
@@ -533,7 +533,7 @@ export const reportsDataByPreset: Record<DateRangePreset, ReportDataset> = {
     topItems: [
       { id: 1, name: 'Doro Wat', category: 'Ethiopian Food', quantity: 142, salesAmount: 96560, sharePercent: 28.1 },
       { id: 2, name: 'Sizzling Beef Tibs', category: 'Ethiopian Food', quantity: 118, salesAmount: 84960, sharePercent: 24.7 },
-      { id: 5, name: 'Abay Signature Burger', category: 'Burgers', quantity: 74, salesAmount: 42920, sharePercent: 12.5 },
+      { id: 5, name: 'Zerfe Signature Burger', category: 'Burgers', quantity: 74, salesAmount: 42920, sharePercent: 12.5 },
       { id: 3, name: 'The Garden Beyaynetu', category: 'Ethiopian Food', quantity: 86, salesAmount: 39560, sharePercent: 11.5 },
       { id: 7, name: 'Fresh Mango Juice', category: 'Drinks', quantity: 128, salesAmount: 23040, sharePercent: 6.7 },
       { id: 9, name: 'Morning Shakshuka', category: 'Breakfast', quantity: 52, salesAmount: 17680, sharePercent: 5.1 },
@@ -550,7 +550,7 @@ export const reportsDataByPreset: Record<DateRangePreset, ReportDataset> = {
       { id: 'o1', reference: '#GQ-1048', time: '13:24', date: '17 Oct 2026', table: 'Dine-in', itemsSummary: '2× Doro Wat, 1× Tibs', total: 2080, status: 'Completed', paymentMethod: 'Telebirr' },
       { id: 'o2', reference: '#GQ-1047', time: '13:10', date: '17 Oct 2026', table: 'Table 02', itemsSummary: '1× Beyaynetu, 2× Mango Juice', total: 820, status: 'Completed', paymentMethod: 'Cash' },
       { id: 'o3', reference: '#GQ-1046', time: '12:55', date: '17 Oct 2026', table: 'Table 04', itemsSummary: '1× Beef Tibs, 1× Macchiato', total: 800, status: 'Completed', paymentMethod: 'CBE Birr' },
-      { id: 'o4', reference: '#GQ-1045', time: '12:42', date: '17 Oct 2026', table: 'Terrace 01', itemsSummary: '2× Abay Signature Burger', total: 1160, status: 'Completed', paymentMethod: 'Telebirr' },
+      { id: 'o4', reference: '#GQ-1045', time: '12:42', date: '17 Oct 2026', table: 'Terrace 01', itemsSummary: '2× Zerfe Signature Burger', total: 1160, status: 'Completed', paymentMethod: 'Telebirr' },
       { id: 'o5', reference: '#GQ-1044', time: '12:30', date: '17 Oct 2026', table: 'Table 10', itemsSummary: '4× Doro Wat, 4× Drinks', total: 3440, status: 'Completed', paymentMethod: 'Card' },
       { id: 'o6', reference: '#GQ-1043', time: '12:15', date: '17 Oct 2026', table: 'Table 01', itemsSummary: '1× Shakshuka, 1× Coffee', total: 420, status: 'Completed', paymentMethod: 'Cash' },
       { id: 'o7', reference: '#GQ-1042', time: '11:45', date: '17 Oct 2026', table: 'Terrace 02', itemsSummary: '1× Beef Tibs', total: 720, status: 'Completed', paymentMethod: 'Telebirr' },
@@ -579,7 +579,7 @@ export const reportsDataByPreset: Record<DateRangePreset, ReportDataset> = {
     topItems: [
       { id: 1, name: 'Doro Wat', category: 'Ethiopian Food', quantity: 580, salesAmount: 394400, sharePercent: 29.2 },
       { id: 2, name: 'Sizzling Beef Tibs', category: 'Ethiopian Food', quantity: 485, salesAmount: 349200, sharePercent: 25.8 },
-      { id: 5, name: 'Abay Signature Burger', category: 'Burgers', quantity: 298, salesAmount: 172840, sharePercent: 12.8 },
+      { id: 5, name: 'Zerfe Signature Burger', category: 'Burgers', quantity: 298, salesAmount: 172840, sharePercent: 12.8 },
       { id: 3, name: 'The Garden Beyaynetu', category: 'Ethiopian Food', quantity: 345, salesAmount: 158700, sharePercent: 11.7 },
       { id: 7, name: 'Fresh Mango Juice', category: 'Drinks', quantity: 520, salesAmount: 93600, sharePercent: 6.9 }
     ],
@@ -615,7 +615,7 @@ export const reportsDataByPreset: Record<DateRangePreset, ReportDataset> = {
     topItems: [
       { id: 1, name: 'Doro Wat', category: 'Ethiopian Food', quantity: 330, salesAmount: 224400, sharePercent: 28.8 },
       { id: 2, name: 'Sizzling Beef Tibs', category: 'Ethiopian Food', quantity: 275, salesAmount: 198000, sharePercent: 25.4 },
-      { id: 5, name: 'Abay Signature Burger', category: 'Burgers', quantity: 172, salesAmount: 99760, sharePercent: 12.8 },
+      { id: 5, name: 'Zerfe Signature Burger', category: 'Burgers', quantity: 172, salesAmount: 99760, sharePercent: 12.8 },
       { id: 3, name: 'The Garden Beyaynetu', category: 'Ethiopian Food', quantity: 198, salesAmount: 91080, sharePercent: 11.7 },
       { id: 7, name: 'Fresh Mango Juice', category: 'Drinks', quantity: 295, salesAmount: 53100, sharePercent: 6.8 }
     ],
@@ -652,7 +652,7 @@ export const reportsDataByPreset: Record<DateRangePreset, ReportDataset> = {
     topItems: [
       { id: 1, name: 'Doro Wat', category: 'Ethiopian Food', quantity: 105, salesAmount: 71400, sharePercent: 28.5 },
       { id: 2, name: 'Sizzling Beef Tibs', category: 'Ethiopian Food', quantity: 88, salesAmount: 63360, sharePercent: 25.3 },
-      { id: 5, name: 'Abay Signature Burger', category: 'Burgers', quantity: 56, salesAmount: 32480, sharePercent: 13.0 }
+      { id: 5, name: 'Zerfe Signature Burger', category: 'Burgers', quantity: 56, salesAmount: 32480, sharePercent: 13.0 }
     ],
     categories: [
       { category: 'Ethiopian Food', quantity: 254, salesAmount: 162240, sharePercent: 64.8 },
@@ -687,14 +687,14 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
         return {
           name: u.name || 'Admin',
           role: (u.role === 'Admin' ? 'Owner' : u.role) as any,
-          email: u.email || 'admin@abaykitchen.et'
+          email: u.email || 'admin@zerfelounge.et'
         };
       }
     } catch {}
     return {
-      name: 'Abebe Bekele',
+      name: 'Zerfe Admin',
       role: 'Owner',
-      email: 'admin@abaykitchen.et'
+      email: 'admin@zerfelounge.et'
     };
   });
   const [showStaffLoginModal, setShowStaffLoginModal] = useState(false);
@@ -859,15 +859,15 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
   // Settings & Configuration State (03F)
   const [settingsSubTab, setSettingsSubTab] = useState<'profile' | 'ordering' | 'payments' | 'billing'>('profile');
   const [profileForm, setProfileForm] = useState({
-    name: 'Abay Kitchen',
-    tagline: 'Authentic Ethiopian Flavors & Modern Dining',
+    name: 'Zerfe Lounge',
+    tagline: 'Luxury Dining, Lounge & Hospitality in Bale Robe',
     cuisine: 'Ethiopian & Continental',
-    phone: '+251 91 123 4567',
-    email: 'contact@abaykitchen.et',
-    address: 'Bole Medhanialem, Camrose Bldg 2nd Floor, Addis Ababa',
-    openingHours: 'Mon – Sun: 07:00 AM – 11:00 PM',
-    wifiSsid: 'AbayKitchen_Guest',
-    wifiPassword: 'Enjera2026',
+    phone: '+251 92 234 5678',
+    email: 'contact@zerfelounge.et',
+    address: 'Main Road, Bale Robe, Oromia, Ethiopia',
+    openingHours: 'Mon – Sun: 06:30 AM – 11:30 PM',
+    wifiSsid: 'ZerfeLounge_Guest',
+    wifiPassword: 'Zerfe2026',
     currency: 'ETB'
   });
   const [orderingSettings, setOrderingSettings] = useState({
@@ -2069,7 +2069,7 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
                       {[
                         { name: 'Doro Wat', category: 'Ethiopian Food', count: 18, share: '32%' },
                         { name: 'Sizzling Beef Tibs', category: 'Ethiopian Food', count: 14, share: '26%' },
-                        { name: 'Abay Signature Burger', category: 'Burgers', count: 9, share: '16%' },
+                        { name: 'Zerfe Signature Burger', category: 'Burgers', count: 9, share: '16%' },
                         { name: 'The Garden Beyaynetu', category: 'Ethiopian Food', count: 7, share: '12%' }
                       ].map(item => (
                         <div key={item.name} style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
