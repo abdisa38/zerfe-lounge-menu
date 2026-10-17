@@ -457,25 +457,24 @@ export const reportsDataByPreset: Record<DateRangePreset, ReportDataset> = {
       { label: '21:00', sales: 2100, previousSales: 1950, orders: 5 }
     ],
     topItems: [
-      { id: 1, name: 'Doro Wat', category: 'Ethiopian Food', quantity: 24, salesAmount: 16320, sharePercent: 32.5 },
-      { id: 2, name: 'Sizzling Beef Tibs', category: 'Ethiopian Food', quantity: 19, salesAmount: 13680, sharePercent: 27.2 },
-      { id: 5, name: 'Zerfe Signature Burger', category: 'Burgers', quantity: 14, salesAmount: 8120, sharePercent: 16.2 },
-      { id: 7, name: 'Fresh Mango Juice', category: 'Drinks', quantity: 28, salesAmount: 5040, sharePercent: 10.0 },
-      { id: 3, name: 'The Garden Beyaynetu', category: 'Ethiopian Food', quantity: 9, salesAmount: 4140, sharePercent: 8.2 },
-      { id: 9, name: 'Morning Shakshuka', category: 'Breakfast', quantity: 8, salesAmount: 2720, sharePercent: 5.4 }
+      { id: 1, name: 'Doro Wat (ዶሮ ወጥ)', category: 'Traditional Wats', quantity: 24, salesAmount: 16320, sharePercent: 32.5 },
+      { id: 5, name: 'Shekla Tibs (ሸክላ ጥብስ)', category: 'Tibs & Sizzlers', quantity: 19, salesAmount: 14820, sharePercent: 29.5 },
+      { id: 2, name: 'Kitfo (ክትፎ)', category: 'Raw & Delicacies', quantity: 15, salesAmount: 11250, sharePercent: 22.4 },
+      { id: 16, name: 'Chikina Tibs (የጭቅና ጥብስ)', category: 'Tibs & Sizzlers', quantity: 6, salesAmount: 5340, sharePercent: 10.6 },
+      { id: 20, name: 'Siga Firfir / Bozena Shiro (ቦዘና ሽሮ)', category: 'Firfir & Hybrids', quantity: 4, salesAmount: 2320, sharePercent: 4.6 }
     ],
     categories: [
-      { category: 'Ethiopian Food', quantity: 52, salesAmount: 34140, sharePercent: 68.0 },
-      { category: 'Burgers & Mains', quantity: 14, salesAmount: 8120, sharePercent: 16.2 },
-      { category: 'Drinks & Coffee', quantity: 42, salesAmount: 6840, sharePercent: 13.6 },
-      { category: 'Desserts', quantity: 4, salesAmount: 1280, sharePercent: 2.2 }
+      { category: 'Tibs & Sizzlers', quantity: 25, salesAmount: 20160, sharePercent: 40.2 },
+      { category: 'Traditional Wats', quantity: 24, salesAmount: 16320, sharePercent: 32.5 },
+      { category: 'Raw & Delicacies', quantity: 15, salesAmount: 11250, sharePercent: 22.4 },
+      { category: 'Firfir & Hybrids', quantity: 4, salesAmount: 2320, sharePercent: 4.6 }
     ],
     recentOrders: [
-      { id: 'o1', reference: '#GQ-1048', time: '13:24', date: '17 Oct 2026', table: 'Dine-in', itemsSummary: '2× Doro Wat, 1× Tibs', total: 2080, status: 'Completed', paymentMethod: 'Telebirr' },
-      { id: 'o2', reference: '#GQ-1047', time: '13:10', date: '17 Oct 2026', table: 'Table 02', itemsSummary: '1× Beyaynetu, 2× Mango Juice', total: 820, status: 'Completed', paymentMethod: 'Cash' },
-      { id: 'o3', reference: '#GQ-1046', time: '12:55', date: '17 Oct 2026', table: 'Table 04', itemsSummary: '1× Beef Tibs, 1× Macchiato', total: 800, status: 'Completed', paymentMethod: 'CBE Birr' },
-      { id: 'o4', reference: '#GQ-1045', time: '12:42', date: '17 Oct 2026', table: 'Terrace 01', itemsSummary: '2× Zerfe Signature Burger', total: 1160, status: 'Completed', paymentMethod: 'Telebirr' },
-      { id: 'o5', reference: '#GQ-1044', time: '12:30', date: '17 Oct 2026', table: 'Table 10', itemsSummary: '4× Doro Wat, 4× Drinks', total: 3440, status: 'Completed', paymentMethod: 'Card' }
+      { id: 'o1', reference: '#GQ-1048', time: '13:24', date: '17 Oct 2026', table: 'Dine-in', itemsSummary: '2× Doro Wat, 1× Shekla Tibs', total: 2140, status: 'Completed', paymentMethod: 'Telebirr' },
+      { id: 'o2', reference: '#GQ-1047', time: '13:10', date: '17 Oct 2026', table: 'Table 02', itemsSummary: '1× Kitfo, 1× Kekel Broth', total: 1270, status: 'Completed', paymentMethod: 'Cash' },
+      { id: 'o3', reference: '#GQ-1046', time: '12:55', date: '17 Oct 2026', table: 'Table 04', itemsSummary: '1× Derek Tibs, 1× Bozena Shiro', total: 1300, status: 'Completed', paymentMethod: 'CBE Birr' },
+      { id: 'o4', reference: '#GQ-1045', time: '12:42', date: '17 Oct 2026', table: 'Terrace 01', itemsSummary: '2× Chikina Tibs', total: 1780, status: 'Completed', paymentMethod: 'Telebirr' },
+      { id: 'o5', reference: '#GQ-1044', time: '12:30', date: '17 Oct 2026', table: 'Table 10', itemsSummary: '4× Doro Wat, 2× Shekla Tibs', total: 4280, status: 'Completed', paymentMethod: 'Card' }
     ]
   },
   yesterday: {
@@ -503,22 +502,22 @@ export const reportsDataByPreset: Record<DateRangePreset, ReportDataset> = {
       { label: '21:00', sales: 1950, previousSales: 1800, orders: 4 }
     ],
     topItems: [
-      { id: 1, name: 'Doro Wat', category: 'Ethiopian Food', quantity: 21, salesAmount: 14280, sharePercent: 30.5 },
-      { id: 2, name: 'Sizzling Beef Tibs', category: 'Ethiopian Food', quantity: 18, salesAmount: 12960, sharePercent: 27.8 },
-      { id: 5, name: 'Zerfe Signature Burger', category: 'Burgers', quantity: 12, salesAmount: 6960, sharePercent: 14.9 },
-      { id: 7, name: 'Fresh Mango Juice', category: 'Drinks', quantity: 24, salesAmount: 4320, sharePercent: 9.3 },
-      { id: 3, name: 'The Garden Beyaynetu', category: 'Ethiopian Food', quantity: 10, salesAmount: 4600, sharePercent: 9.8 }
+      { id: 1, name: 'Doro Wat (ዶሮ ወጥ)', category: 'Traditional Wats', quantity: 21, salesAmount: 14280, sharePercent: 30.5 },
+      { id: 5, name: 'Shekla Tibs (ሸክላ ጥብስ)', category: 'Tibs & Sizzlers', quantity: 18, salesAmount: 14040, sharePercent: 30.0 },
+      { id: 2, name: 'Kitfo (ክትፎ)', category: 'Raw & Delicacies', quantity: 14, salesAmount: 10500, sharePercent: 22.4 },
+      { id: 16, name: 'Chikina Tibs (የጭቅና ጥብስ)', category: 'Tibs & Sizzlers', quantity: 5, salesAmount: 4450, sharePercent: 9.5 },
+      { id: 20, name: 'Siga Firfir / Bozena Shiro (ቦዘና ሽሮ)', category: 'Firfir & Hybrids', quantity: 6, salesAmount: 3480, sharePercent: 7.4 }
     ],
     categories: [
-      { category: 'Ethiopian Food', quantity: 49, salesAmount: 31840, sharePercent: 68.2 },
-      { category: 'Burgers & Mains', quantity: 12, salesAmount: 6960, sharePercent: 14.9 },
-      { category: 'Drinks & Coffee', quantity: 38, salesAmount: 5880, sharePercent: 12.6 },
-      { category: 'Desserts', quantity: 3, salesAmount: 960, sharePercent: 2.1 }
+      { category: 'Tibs & Sizzlers', quantity: 23, salesAmount: 18490, sharePercent: 39.5 },
+      { category: 'Traditional Wats', quantity: 21, salesAmount: 14280, sharePercent: 30.5 },
+      { category: 'Raw & Delicacies', quantity: 14, salesAmount: 10500, sharePercent: 22.4 },
+      { category: 'Firfir & Hybrids', quantity: 6, salesAmount: 3480, sharePercent: 7.4 }
     ],
     recentOrders: [
-      { id: 'oy1', reference: '#GQ-1038', time: '20:45', date: '16 Oct 2026', table: 'Dine-in', itemsSummary: '2× Beef Tibs', total: 1440, status: 'Completed', paymentMethod: 'Telebirr' },
-      { id: 'oy2', reference: '#GQ-1037', time: '20:15', date: '16 Oct 2026', table: 'Table 04', itemsSummary: '1× Doro Wat, 1× Beer', total: 780, status: 'Completed', paymentMethod: 'Cash' },
-      { id: 'oy3', reference: '#GQ-1036', time: '19:40', date: '16 Oct 2026', table: 'VIP Lounge', itemsSummary: '4× Doro Wat, 2× Tibs', total: 4160, status: 'Completed', paymentMethod: 'Card' }
+      { id: 'oy1', reference: '#GQ-1038', time: '20:45', date: '16 Oct 2026', table: 'Dine-in', itemsSummary: '2× Shekla Tibs', total: 1560, status: 'Completed', paymentMethod: 'Telebirr' },
+      { id: 'oy2', reference: '#GQ-1037', time: '20:15', date: '16 Oct 2026', table: 'Table 04', itemsSummary: '1× Doro Wat, 1× Kitfo', total: 1430, status: 'Completed', paymentMethod: 'Cash' },
+      { id: 'oy3', reference: '#GQ-1036', time: '19:40', date: '16 Oct 2026', table: 'VIP Lounge', itemsSummary: '4× Doro Wat, 2× Shekla Tibs', total: 4280, status: 'Completed', paymentMethod: 'Card' }
     ]
   },
   '7days': {
@@ -542,32 +541,31 @@ export const reportsDataByPreset: Record<DateRangePreset, ReportDataset> = {
       { label: 'Sat 17', sales: 18450, previousSales: 15100, orders: 53 }
     ],
     topItems: [
-      { id: 1, name: 'Doro Wat', category: 'Ethiopian Food', quantity: 142, salesAmount: 96560, sharePercent: 28.1 },
-      { id: 2, name: 'Sizzling Beef Tibs', category: 'Ethiopian Food', quantity: 118, salesAmount: 84960, sharePercent: 24.7 },
-      { id: 5, name: 'Zerfe Signature Burger', category: 'Burgers', quantity: 74, salesAmount: 42920, sharePercent: 12.5 },
-      { id: 3, name: 'The Garden Beyaynetu', category: 'Ethiopian Food', quantity: 86, salesAmount: 39560, sharePercent: 11.5 },
-      { id: 7, name: 'Fresh Mango Juice', category: 'Drinks', quantity: 128, salesAmount: 23040, sharePercent: 6.7 },
-      { id: 9, name: 'Morning Shakshuka', category: 'Breakfast', quantity: 52, salesAmount: 17680, sharePercent: 5.1 },
-      { id: 10, name: 'Traditional Macchiato', category: 'Drinks', quantity: 184, salesAmount: 14720, sharePercent: 4.3 }
+      { id: 1, name: 'Doro Wat (ዶሮ ወጥ)', category: 'Traditional Wats', quantity: 142, salesAmount: 96560, sharePercent: 28.1 },
+      { id: 5, name: 'Shekla Tibs (ሸክላ ጥብስ)', category: 'Tibs & Sizzlers', quantity: 118, salesAmount: 92040, sharePercent: 26.8 },
+      { id: 2, name: 'Kitfo (ክትፎ)', category: 'Raw & Delicacies', quantity: 98, salesAmount: 73500, sharePercent: 21.4 },
+      { id: 16, name: 'Chikina Tibs (የጭቅና ጥብስ)', category: 'Tibs & Sizzlers', quantity: 48, salesAmount: 42720, sharePercent: 12.4 },
+      { id: 20, name: 'Siga Firfir / Bozena Shiro (ቦዘና ሽሮ)', category: 'Firfir & Hybrids', quantity: 42, salesAmount: 24360, sharePercent: 7.1 },
+      { id: 8, name: 'Gomen be Siga (ጎመን በሥጋ)', category: 'Hotel Meat Specialties', quantity: 26, salesAmount: 15080, sharePercent: 4.2 }
     ],
     categories: [
-      { category: 'Ethiopian Food', quantity: 346, salesAmount: 221080, sharePercent: 64.5 },
-      { category: 'Burgers & Western', quantity: 74, salesAmount: 42920, sharePercent: 12.5 },
-      { category: 'Drinks & Beverages', quantity: 312, salesAmount: 37760, sharePercent: 11.0 },
-      { category: 'Breakfast', quantity: 71, salesAmount: 24140, sharePercent: 7.0 },
-      { category: 'Desserts', quantity: 52, salesAmount: 16700, sharePercent: 5.0 }
+      { category: 'Tibs & Sizzlers', quantity: 166, salesAmount: 134760, sharePercent: 39.2 },
+      { category: 'Traditional Wats', quantity: 142, salesAmount: 96560, sharePercent: 28.1 },
+      { category: 'Raw & Delicacies', quantity: 98, salesAmount: 73500, sharePercent: 21.4 },
+      { category: 'Firfir & Hybrids', quantity: 42, salesAmount: 24360, sharePercent: 7.1 },
+      { category: 'Hotel Meat Specialties', quantity: 26, salesAmount: 15080, sharePercent: 4.2 }
     ],
     recentOrders: [
-      { id: 'o1', reference: '#GQ-1048', time: '13:24', date: '17 Oct 2026', table: 'Dine-in', itemsSummary: '2× Doro Wat, 1× Tibs', total: 2080, status: 'Completed', paymentMethod: 'Telebirr' },
-      { id: 'o2', reference: '#GQ-1047', time: '13:10', date: '17 Oct 2026', table: 'Table 02', itemsSummary: '1× Beyaynetu, 2× Mango Juice', total: 820, status: 'Completed', paymentMethod: 'Cash' },
-      { id: 'o3', reference: '#GQ-1046', time: '12:55', date: '17 Oct 2026', table: 'Table 04', itemsSummary: '1× Beef Tibs, 1× Macchiato', total: 800, status: 'Completed', paymentMethod: 'CBE Birr' },
-      { id: 'o4', reference: '#GQ-1045', time: '12:42', date: '17 Oct 2026', table: 'Terrace 01', itemsSummary: '2× Zerfe Signature Burger', total: 1160, status: 'Completed', paymentMethod: 'Telebirr' },
-      { id: 'o5', reference: '#GQ-1044', time: '12:30', date: '17 Oct 2026', table: 'Table 10', itemsSummary: '4× Doro Wat, 4× Drinks', total: 3440, status: 'Completed', paymentMethod: 'Card' },
-      { id: 'o6', reference: '#GQ-1043', time: '12:15', date: '17 Oct 2026', table: 'Table 01', itemsSummary: '1× Shakshuka, 1× Coffee', total: 420, status: 'Completed', paymentMethod: 'Cash' },
-      { id: 'o7', reference: '#GQ-1042', time: '11:45', date: '17 Oct 2026', table: 'Terrace 02', itemsSummary: '1× Beef Tibs', total: 720, status: 'Completed', paymentMethod: 'Telebirr' },
-      { id: 'o8', reference: '#GQ-1041', time: '11:30', date: '17 Oct 2026', table: 'VIP Lounge', itemsSummary: '3× Doro Wat, 1× Beyaynetu', total: 2500, status: 'Completed', paymentMethod: 'Card' },
+      { id: 'o1', reference: '#GQ-1048', time: '13:24', date: '17 Oct 2026', table: 'Dine-in', itemsSummary: '2× Doro Wat, 1× Shekla Tibs', total: 2140, status: 'Completed', paymentMethod: 'Telebirr' },
+      { id: 'o2', reference: '#GQ-1047', time: '13:10', date: '17 Oct 2026', table: 'Table 02', itemsSummary: '1× Kitfo, 1× Kekel Broth', total: 1270, status: 'Completed', paymentMethod: 'Cash' },
+      { id: 'o3', reference: '#GQ-1046', time: '12:55', date: '17 Oct 2026', table: 'Table 04', itemsSummary: '1× Derek Tibs, 1× Bozena Shiro', total: 1300, status: 'Completed', paymentMethod: 'CBE Birr' },
+      { id: 'o4', reference: '#GQ-1045', time: '12:42', date: '17 Oct 2026', table: 'Terrace 01', itemsSummary: '2× Chikina Tibs', total: 1780, status: 'Completed', paymentMethod: 'Telebirr' },
+      { id: 'o5', reference: '#GQ-1044', time: '12:30', date: '17 Oct 2026', table: 'Table 10', itemsSummary: '4× Doro Wat, 2× Shekla Tibs', total: 4280, status: 'Completed', paymentMethod: 'Card' },
+      { id: 'o6', reference: '#GQ-1043', time: '12:15', date: '17 Oct 2026', table: 'Table 01', itemsSummary: '1× Kekel Broth, 1× Injera', total: 565, status: 'Completed', paymentMethod: 'Cash' },
+      { id: 'o7', reference: '#GQ-1042', time: '11:45', date: '17 Oct 2026', table: 'Terrace 02', itemsSummary: '1× Derek Tibs', total: 720, status: 'Completed', paymentMethod: 'Telebirr' },
+      { id: 'o8', reference: '#GQ-1041', time: '11:30', date: '17 Oct 2026', table: 'VIP Lounge', itemsSummary: '3× Doro Wat, 1× Kitfo', total: 2790, status: 'Completed', paymentMethod: 'Card' },
       { id: 'o9', reference: '#GQ-1040', time: '11:10', date: '17 Oct 2026', table: 'Dine-in', itemsSummary: '1× Doro Wat', total: 680, status: 'Cancelled', paymentMethod: 'Voided' },
-      { id: 'o10', reference: '#GQ-1039', time: '10:45', date: '17 Oct 2026', table: 'Table 04', itemsSummary: '2× Morning Shakshuka', total: 680, status: 'Completed', paymentMethod: 'Telebirr' }
+      { id: 'o10', reference: '#GQ-1039', time: '10:45', date: '17 Oct 2026', table: 'Table 04', itemsSummary: '2× Dulet', total: 1280, status: 'Completed', paymentMethod: 'Telebirr' }
     ]
   },
   '30days': {
@@ -588,22 +586,21 @@ export const reportsDataByPreset: Record<DateRangePreset, ReportDataset> = {
       { label: 'Week 4', sales: 86400, previousSales: 79500, orders: 290 }
     ],
     topItems: [
-      { id: 1, name: 'Doro Wat', category: 'Ethiopian Food', quantity: 580, salesAmount: 394400, sharePercent: 29.2 },
-      { id: 2, name: 'Sizzling Beef Tibs', category: 'Ethiopian Food', quantity: 485, salesAmount: 349200, sharePercent: 25.8 },
-      { id: 5, name: 'Zerfe Signature Burger', category: 'Burgers', quantity: 298, salesAmount: 172840, sharePercent: 12.8 },
-      { id: 3, name: 'The Garden Beyaynetu', category: 'Ethiopian Food', quantity: 345, salesAmount: 158700, sharePercent: 11.7 },
-      { id: 7, name: 'Fresh Mango Juice', category: 'Drinks', quantity: 520, salesAmount: 93600, sharePercent: 6.9 }
+      { id: 1, name: 'Doro Wat (ዶሮ ወጥ)', category: 'Traditional Wats', quantity: 580, salesAmount: 394400, sharePercent: 29.2 },
+      { id: 5, name: 'Shekla Tibs (ሸክላ ጥብስ)', category: 'Tibs & Sizzlers', quantity: 485, salesAmount: 378300, sharePercent: 28.0 },
+      { id: 2, name: 'Kitfo (ክትፎ)', category: 'Raw & Delicacies', quantity: 380, salesAmount: 285000, sharePercent: 21.1 },
+      { id: 16, name: 'Chikina Tibs (የጭቅና ጥብስ)', category: 'Tibs & Sizzlers', quantity: 195, salesAmount: 173550, sharePercent: 12.8 },
+      { id: 20, name: 'Siga Firfir / Bozena Shiro (ቦዘና ሽሮ)', category: 'Firfir & Hybrids', quantity: 185, salesAmount: 107300, sharePercent: 8.9 }
     ],
     categories: [
-      { category: 'Ethiopian Food', quantity: 1410, salesAmount: 902300, sharePercent: 65.0 },
-      { category: 'Burgers & Western', quantity: 298, salesAmount: 172840, sharePercent: 12.8 },
-      { category: 'Drinks & Beverages', quantity: 1240, salesAmount: 152000, sharePercent: 11.2 },
-      { category: 'Breakfast', quantity: 280, salesAmount: 95200, sharePercent: 7.0 },
-      { category: 'Desserts', quantity: 210, salesAmount: 67200, sharePercent: 4.0 }
+      { category: 'Tibs & Sizzlers', quantity: 680, salesAmount: 551850, sharePercent: 40.8 },
+      { category: 'Traditional Wats', quantity: 580, salesAmount: 394400, sharePercent: 29.2 },
+      { category: 'Raw & Delicacies', quantity: 380, salesAmount: 285000, sharePercent: 21.1 },
+      { category: 'Firfir & Hybrids', quantity: 185, salesAmount: 107300, sharePercent: 8.9 }
     ],
     recentOrders: [
-      { id: 'o1', reference: '#GQ-1048', time: '13:24', date: '17 Oct 2026', table: 'Dine-in', itemsSummary: '2× Doro Wat, 1× Tibs', total: 2080, status: 'Completed', paymentMethod: 'Telebirr' },
-      { id: 'o2', reference: '#GQ-1047', time: '13:10', date: '17 Oct 2026', table: 'Table 02', itemsSummary: '1× Beyaynetu, 2× Mango Juice', total: 820, status: 'Completed', paymentMethod: 'Cash' }
+      { id: 'o1', reference: '#GQ-1048', time: '13:24', date: '17 Oct 2026', table: 'Dine-in', itemsSummary: '2× Doro Wat, 1× Shekla Tibs', total: 2140, status: 'Completed', paymentMethod: 'Telebirr' },
+      { id: 'o2', reference: '#GQ-1047', time: '13:10', date: '17 Oct 2026', table: 'Table 02', itemsSummary: '1× Kitfo, 1× Kekel Broth', total: 1270, status: 'Completed', paymentMethod: 'Cash' }
     ]
   },
   month: {
@@ -624,21 +621,20 @@ export const reportsDataByPreset: Record<DateRangePreset, ReportDataset> = {
       { label: 'Oct 13-17', sales: 54300, previousSales: 48900, orders: 179 }
     ],
     topItems: [
-      { id: 1, name: 'Doro Wat', category: 'Ethiopian Food', quantity: 330, salesAmount: 224400, sharePercent: 28.8 },
-      { id: 2, name: 'Sizzling Beef Tibs', category: 'Ethiopian Food', quantity: 275, salesAmount: 198000, sharePercent: 25.4 },
-      { id: 5, name: 'Zerfe Signature Burger', category: 'Burgers', quantity: 172, salesAmount: 99760, sharePercent: 12.8 },
-      { id: 3, name: 'The Garden Beyaynetu', category: 'Ethiopian Food', quantity: 198, salesAmount: 91080, sharePercent: 11.7 },
-      { id: 7, name: 'Fresh Mango Juice', category: 'Drinks', quantity: 295, salesAmount: 53100, sharePercent: 6.8 }
+      { id: 1, name: 'Doro Wat (ዶሮ ወጥ)', category: 'Traditional Wats', quantity: 330, salesAmount: 224400, sharePercent: 28.8 },
+      { id: 5, name: 'Shekla Tibs (ሸክላ ጥብስ)', category: 'Tibs & Sizzlers', quantity: 275, salesAmount: 214500, sharePercent: 27.5 },
+      { id: 2, name: 'Kitfo (ክትፎ)', category: 'Raw & Delicacies', quantity: 210, salesAmount: 157500, sharePercent: 20.2 },
+      { id: 16, name: 'Chikina Tibs (የጭቅና ጥብስ)', category: 'Tibs & Sizzlers', quantity: 120, salesAmount: 106800, sharePercent: 13.7 },
+      { id: 20, name: 'Siga Firfir / Bozena Shiro (ቦዘና ሽሮ)', category: 'Firfir & Hybrids', quantity: 135, salesAmount: 78300, sharePercent: 9.8 }
     ],
     categories: [
-      { category: 'Ethiopian Food', quantity: 803, salesAmount: 513480, sharePercent: 64.8 },
-      { category: 'Burgers & Western', quantity: 172, salesAmount: 99760, sharePercent: 12.8 },
-      { category: 'Drinks & Beverages', quantity: 710, salesAmount: 87100, sharePercent: 11.2 },
-      { category: 'Breakfast', quantity: 160, salesAmount: 54400, sharePercent: 7.0 },
-      { category: 'Desserts', quantity: 120, salesAmount: 38400, sharePercent: 4.2 }
+      { category: 'Tibs & Sizzlers', quantity: 395, salesAmount: 321300, sharePercent: 41.2 },
+      { category: 'Traditional Wats', quantity: 330, salesAmount: 224400, sharePercent: 28.8 },
+      { category: 'Raw & Delicacies', quantity: 210, salesAmount: 157500, sharePercent: 20.2 },
+      { category: 'Firfir & Hybrids', quantity: 135, salesAmount: 78300, sharePercent: 9.8 }
     ],
     recentOrders: [
-      { id: 'o1', reference: '#GQ-1048', time: '13:24', date: '17 Oct 2026', table: 'Dine-in', itemsSummary: '2× Doro Wat, 1× Tibs', total: 2080, status: 'Completed', paymentMethod: 'Telebirr' }
+      { id: 'o1', reference: '#GQ-1048', time: '13:24', date: '17 Oct 2026', table: 'Dine-in', itemsSummary: '2× Doro Wat, 1× Shekla Tibs', total: 2140, status: 'Completed', paymentMethod: 'Telebirr' }
     ]
   },
   custom: {
@@ -661,17 +657,17 @@ export const reportsDataByPreset: Record<DateRangePreset, ReportDataset> = {
       { label: 'Day 6', sales: 10750, previousSales: 10100, orders: 35 }
     ],
     topItems: [
-      { id: 1, name: 'Doro Wat', category: 'Ethiopian Food', quantity: 105, salesAmount: 71400, sharePercent: 28.5 },
-      { id: 2, name: 'Sizzling Beef Tibs', category: 'Ethiopian Food', quantity: 88, salesAmount: 63360, sharePercent: 25.3 },
-      { id: 5, name: 'Zerfe Signature Burger', category: 'Burgers', quantity: 56, salesAmount: 32480, sharePercent: 13.0 }
+      { id: 1, name: 'Doro Wat (ዶሮ ወጥ)', category: 'Traditional Wats', quantity: 105, salesAmount: 71400, sharePercent: 32.5 },
+      { id: 5, name: 'Shekla Tibs (ሸክላ ጥብስ)', category: 'Tibs & Sizzlers', quantity: 88, salesAmount: 68640, sharePercent: 31.2 },
+      { id: 2, name: 'Kitfo (ክትፎ)', category: 'Raw & Delicacies', quantity: 56, salesAmount: 42000, sharePercent: 19.1 }
     ],
     categories: [
-      { category: 'Ethiopian Food', quantity: 254, salesAmount: 162240, sharePercent: 64.8 },
-      { category: 'Burgers & Western', quantity: 56, salesAmount: 32480, sharePercent: 13.0 },
-      { category: 'Drinks & Beverages', quantity: 230, salesAmount: 27900, sharePercent: 11.1 }
+      { category: 'Tibs & Sizzlers', quantity: 88, salesAmount: 68640, sharePercent: 37.8 },
+      { category: 'Traditional Wats', quantity: 105, salesAmount: 71400, sharePercent: 39.4 },
+      { category: 'Raw & Delicacies', quantity: 56, salesAmount: 42000, sharePercent: 22.8 }
     ],
     recentOrders: [
-      { id: 'o1', reference: '#GQ-1048', time: '13:24', date: '15 Oct 2026', table: 'Dine-in', itemsSummary: '2× Doro Wat, 1× Tibs', total: 2080, status: 'Completed', paymentMethod: 'Telebirr' }
+      { id: 'o1', reference: '#GQ-1048', time: '13:24', date: '15 Oct 2026', table: 'Dine-in', itemsSummary: '2× Doro Wat, 1× Shekla Tibs', total: 2140, status: 'Completed', paymentMethod: 'Telebirr' }
     ]
   }
 };
@@ -2078,10 +2074,10 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
 
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                       {[
-                        { name: 'Doro Wat', category: 'Ethiopian Food', count: 18, share: '32%' },
-                        { name: 'Sizzling Beef Tibs', category: 'Ethiopian Food', count: 14, share: '26%' },
-                        { name: 'Zerfe Signature Burger', category: 'Burgers', count: 9, share: '16%' },
-                        { name: 'The Garden Beyaynetu', category: 'Ethiopian Food', count: 7, share: '12%' }
+                        { name: 'Doro Wat (ዶሮ ወጥ)', category: 'Traditional Wats', count: 18, share: '32%' },
+                        { name: 'Shekla Tibs (ሸክላ ጥብስ)', category: 'Tibs & Sizzlers', count: 14, share: '26%' },
+                        { name: 'Kitfo (ክትፎ)', category: 'Raw & Delicacies', count: 9, share: '16%' },
+                        { name: 'Chikina Tibs (የጭቅና ጥብስ)', category: 'Tibs & Sizzlers', count: 7, share: '12%' }
                       ].map(item => (
                         <div key={item.name} style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px' }}>
