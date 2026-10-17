@@ -1,6 +1,18 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
 const MenuItem = require('../models/MenuItem');
+
+// Helper to query item by ObjectId or name
+const findItem = async (id) => {
+  if (mongoose.Types.ObjectId.isValid(id)) {
+    const item = await MenuItem.findById(id);
+    if (item) return item;
+  }
+  return await MenuItem.findOne({
+    $or: [{ name: id }, { _id: id }]
+  });
+};
 
 // GET all dishes
 router.get('/', async (req, res) => {
@@ -24,7 +36,15 @@ router.get('/', async (req, res) => {
 // POST new dish
 router.post('/', async (req, res) => {
   try {
-    const dish = new MenuItem(req.body);
+    const dishData = { ...req.body };
+    if (!dishData.name) {
+      return res.status(400).json({ success: false, error: 'Dish name is required.' });
+    }
+    if (dishData.price === undefined || isNaN(Number(dishData.price))) {
+      return res.status(400).json({ success: false, error: 'Valid dish price is required.' });
+    }
+
+    const dish = new MenuItem(dishData);
     await dish.save();
     res.status(201).json({ success: true, data: dish });
   } catch (err) {
@@ -35,7 +55,18 @@ router.post('/', async (req, res) => {
 // PUT update dish
 router.put('/:id', async (req, res) => {
   try {
-    const dish = await MenuItem.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+    const { id } = req.params;
+    let dish;
+    if (mongoose.Types.ObjectId.isValid(id)) {
+      dish = await MenuItem.findByIdAndUpdate(id, req.body, { new: true, runValidators: true });
+    }
+    if (!dish) {
+      dish = await MenuItem.findOneAndUpdate(
+        { $or: [{ name: id }, { _id: id }] },
+        req.body,
+        { new: true, runValidators: true }
+      );
+    }
     if (!dish) return res.status(404).json({ success: false, error: 'Dish not found' });
     res.json({ success: true, data: dish });
   } catch (err) {
@@ -46,7 +77,8 @@ router.put('/:id', async (req, res) => {
 // PATCH toggle dish availability
 router.patch('/:id/toggle', async (req, res) => {
   try {
-    const dish = await MenuItem.findById(req.params.id);
+    const { id } = req.params;
+    const dish = await findItem(id);
     if (!dish) return res.status(404).json({ success: false, error: 'Dish not found' });
     dish.isAvailable = !dish.isAvailable;
     await dish.save();
@@ -59,9 +91,16 @@ router.patch('/:id/toggle', async (req, res) => {
 // DELETE dish
 router.delete('/:id', async (req, res) => {
   try {
-    const dish = await MenuItem.findByIdAndDelete(req.params.id);
+    const { id } = req.params;
+    let dish;
+    if (mongoose.Types.ObjectId.isValid(id)) {
+      dish = await MenuItem.findByIdAndDelete(id);
+    }
+    if (!dish) {
+      dish = await MenuItem.findOneAndDelete({ $or: [{ name: id }, { _id: id }] });
+    }
     if (!dish) return res.status(404).json({ success: false, error: 'Dish not found' });
-    res.json({ success: true, message: 'Dish deleted successfully' });
+    res.json({ success: true, message: 'Dish deleted successfully', data: dish });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }

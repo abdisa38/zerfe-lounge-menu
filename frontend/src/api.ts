@@ -12,6 +12,15 @@ const getApiBase = (): string => {
 
 export const API_BASE = getApiBase();
 
+export const getDishImageUrl = (img?: string, width = 700): string => {
+  if (!img) return `https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=${width}&q=85`;
+  const trimmed = img.trim();
+  if (trimmed.startsWith('http://') || trimmed.startsWith('https://') || trimmed.startsWith('data:')) {
+    return trimmed;
+  }
+  return `https://images.unsplash.com/${trimmed}?auto=format&fit=crop&w=${width}&q=85`;
+};
+
 export interface ApiCategory {
   _id?: string;
   id?: string;
@@ -188,19 +197,109 @@ export const api = {
     }
   },
 
-  // Menu Items
+  // Menu Items CRUD
   async getMenuItems(category?: string): Promise<ApiMenuItem[]> {
     const query = category && category !== 'All Items' ? `?category=${encodeURIComponent(category)}` : '';
     const res = await requestApi<ApiMenuItem[]>(`/menu${query}`);
+    if (res.success && Array.isArray(res.data) && res.data.length > 0) {
+      try {
+        localStorage.setItem('gebeta_local_menu', JSON.stringify(res.data));
+      } catch {}
+      return res.data;
+    }
+    try {
+      const cached = JSON.parse(localStorage.getItem('gebeta_local_menu') || '[]');
+      if (Array.isArray(cached) && cached.length > 0) {
+        if (category && category !== 'All Items') {
+          return cached.filter(c => c.category === category);
+        }
+        return cached;
+      }
+    } catch {}
     return res.success && Array.isArray(res.data) ? res.data : [];
   },
 
-  async toggleItemAvailability(id: string): Promise<ApiMenuItem> {
-    const res = await requestApi<ApiMenuItem>(`/menu/${id}/toggle`, { method: 'PATCH' });
-    if (!res.success) {
-      return { _id: id, isAvailable: false } as any;
+  async createMenuItem(item: Partial<ApiMenuItem>): Promise<ApiMenuItem> {
+    const res = await requestApi<ApiMenuItem>('/menu', {
+      method: 'POST',
+      body: JSON.stringify(item)
+    });
+
+    const newItem: ApiMenuItem = res.success && res.data
+      ? res.data
+      : {
+          ...item,
+          _id: `local-dish-${Date.now()}`,
+          id: Date.now(),
+          name: item.name || 'Untitled Dish',
+          description: item.description || '',
+          price: Number(item.price) || 0,
+          category: item.category || 'Tibs & Sizzlers',
+          image: item.image || 'photo-1544025162-d76694265947',
+          isAvailable: item.isAvailable !== false
+        } as ApiMenuItem;
+
+    try {
+      const cached: ApiMenuItem[] = JSON.parse(localStorage.getItem('gebeta_local_menu') || '[]');
+      cached.unshift(newItem);
+      localStorage.setItem('gebeta_local_menu', JSON.stringify(cached));
+    } catch {}
+
+    return newItem;
+  },
+
+  async updateMenuItem(id: string | number, item: Partial<ApiMenuItem>): Promise<ApiMenuItem> {
+    const res = await requestApi<ApiMenuItem>(`/menu/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(item)
+    });
+
+    const updatedItem: ApiMenuItem = res.success && res.data
+      ? res.data
+      : ({ ...item, _id: String(id), id } as ApiMenuItem);
+
+    try {
+      const cached: ApiMenuItem[] = JSON.parse(localStorage.getItem('gebeta_local_menu') || '[]');
+      const idx = cached.findIndex(c => String(c._id) === String(id) || String(c.id) === String(id));
+      if (idx !== -1) {
+        cached[idx] = { ...cached[idx], ...updatedItem };
+        localStorage.setItem('gebeta_local_menu', JSON.stringify(cached));
+      }
+    } catch {}
+
+    return updatedItem;
+  },
+
+  async deleteMenuItem(id: string | number): Promise<void> {
+    const res = await requestApi(`/menu/${id}`, { method: 'DELETE' });
+
+    try {
+      const cached: ApiMenuItem[] = JSON.parse(localStorage.getItem('gebeta_local_menu') || '[]');
+      const filtered = cached.filter(c => String(c._id) !== String(id) && String(c.id) !== String(id));
+      localStorage.setItem('gebeta_local_menu', JSON.stringify(filtered));
+    } catch {}
+
+    if (!res.success && res.status !== 405 && res.status !== 0) {
+      console.warn('Backend delete returned:', res.error);
     }
-    return res.data!;
+  },
+
+  async toggleItemAvailability(id: string | number): Promise<ApiMenuItem> {
+    const res = await requestApi<ApiMenuItem>(`/menu/${id}/toggle`, { method: 'PATCH' });
+
+    let updated = res.success && res.data ? res.data : null;
+
+    try {
+      const cached: ApiMenuItem[] = JSON.parse(localStorage.getItem('gebeta_local_menu') || '[]');
+      const target = cached.find(c => String(c._id) === String(id) || String(c.id) === String(id));
+      if (target) {
+        target.isAvailable = !target.isAvailable;
+        localStorage.setItem('gebeta_local_menu', JSON.stringify(cached));
+        if (!updated) updated = target;
+      }
+    } catch {}
+
+    return updated || ({ _id: String(id), id, isAvailable: false } as any);
   },
 
   // Tables
