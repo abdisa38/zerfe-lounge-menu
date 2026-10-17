@@ -11,7 +11,7 @@ router.post('/login', async (req, res) => {
     const rawId = (email || username || '').toLowerCase().trim();
     if (rawId) {
       if (rawId === 'admin') {
-        query = { $or: [{ role: 'Owner' }, { email: 'admin@abaykitchen.et' }] };
+        query = { $or: [{ role: 'Owner' }, { email: 'admin@zerfelounge.et' }] };
       } else if (rawId === 'manager') {
         query = { role: 'Manager' };
       } else if (rawId === 'kitchen') {
@@ -32,11 +32,11 @@ router.post('/login', async (req, res) => {
     let staff = await Staff.findOne(query);
 
     // If admin is requested and not found in database, automatically seed admin
-    if (!staff && (rawId === 'admin' || rawId === 'admin@abaykitchen.et' || role === 'Owner')) {
+    if (!staff && (rawId === 'admin' || rawId === 'admin@zerfelounge.et' || role === 'Owner')) {
       staff = await Staff.create({
-        name: 'Abay Admin',
-        email: 'admin@abaykitchen.et',
-        phone: '+251 91 123 4567',
+        name: 'Zerfe Admin',
+        email: 'admin@zerfelounge.et',
+        phone: '+251 92 234 5678',
         role: 'Owner',
         pin: '1234',
         status: 'Active'
@@ -44,8 +44,8 @@ router.post('/login', async (req, res) => {
     } else if (!staff && rawId === 'customer') {
       staff = await Staff.create({
         name: 'Guest Diner',
-        email: 'customer@abaykitchen.et',
-        phone: '+251 91 234 5678',
+        email: 'customer@zerfelounge.et',
+        phone: '+251 92 234 5678',
         role: 'Customer',
         pin: '1234',
         status: 'Active'
@@ -56,7 +56,7 @@ router.post('/login', async (req, res) => {
       const capitalized = displayName.charAt(0).toUpperCase() + displayName.slice(1);
       staff = await Staff.create({
         name: capitalized,
-        email: rawId.includes('@') ? rawId : `${rawId}@customer.abaykitchen.et`,
+        email: rawId.includes('@') ? rawId : `${rawId}@customer.zerfelounge.et`,
         role: 'Customer',
         pin: (pin || '').trim() || '1234',
         status: 'Active'

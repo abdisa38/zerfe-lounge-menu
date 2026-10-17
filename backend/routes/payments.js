@@ -21,7 +21,7 @@ router.post('/chapa/initialize', async (req, res) => {
     const lastName = nameParts.slice(1).join(' ') || 'Guest';
 
     // Unique transaction reference
-    const reference = txRef || `GQ-AK-TX-${Date.now()}`;
+    const reference = txRef || `GQ-ZL-TX-${Date.now()}`;
 
     // Chapa strictly validates email hosts (must have valid MX domain, e.g. @gmail.com)
     let cleanEmail = (email || '').trim().toLowerCase();
@@ -59,7 +59,7 @@ router.post('/chapa/initialize', async (req, res) => {
       callback_url: callbackUrl,
       return_url: defaultReturnUrl,
       customization: {
-        title: 'Abay Kitchen',
+        title: 'Zerfe Lounge',
         description: `Order ${orderReference || reference}`.slice(0, 50)
       }
     };

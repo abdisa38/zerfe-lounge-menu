@@ -62,7 +62,7 @@ export default function Checkout({ cart, setCart, onBack, samples, onRecord, onT
     } catch (e) {}
 
     try {
-      const txRef = `GQ-AK-TX-${Date.now()}`;
+      const txRef = `GQ-ZL-TX-${Date.now()}`;
       // Connect to backend MongoDB
       const savedOrder = await api.checkoutOrder({
         customerName: name.trim(),
@@ -158,7 +158,7 @@ export default function Checkout({ cart, setCart, onBack, samples, onRecord, onT
     <div className="customer-menu checkout-page">
       <header className="checkout-header">
         <a href="#" onClick={e => { e.preventDefault(); if (!busy) onBack(); }} className="checkout-brand">
-          ABAY KITCHEN<small>AUTHENTIC ETHIOPIAN DINING</small>
+          ZERFE LOUNGE<small>HOTEL &amp; LUXURY DINING · BALE ROBE</small>
         </a>
         <span><Icon name="check" size={15} /> Dine-in</span>
         <span className="checkout-preview" style={{ background: '#e8f5e9', color: '#143d2b', border: '1px solid #c9e4c3' }}>
@@ -234,7 +234,7 @@ export default function Checkout({ cart, setCart, onBack, samples, onRecord, onT
                   <span className={`confirmation-symbol ${status === 'Cancelled' ? 'cancel-symbol' : ''}`}>
                     <Icon name={status === 'Cancelled' ? 'info' : 'check'} size={28} />
                   </span>
-                  <span className="menu-eyebrow">ABAY KITCHEN · DINE-IN</span>
+                  <span className="menu-eyebrow">ZERFE LOUNGE · DINE-IN</span>
                   <h2>Order Received Successfully!</h2>
                   <p>
                     The chef has been notified and is preparing your meal. No need to call a server.
@@ -508,8 +508,8 @@ export default function Checkout({ cart, setCart, onBack, samples, onRecord, onT
                   </div>
                   <div>
                     <span className="menu-eyebrow">DINE-IN SERVICE</span>
-                    <h2>Abay Kitchen Dining</h2>
-                    <p>Bole Medhanialem, Addis Ababa · Prepared fresh upon ordering</p>
+                    <h2>Zerfe Lounge Dining</h2>
+                    <p>Main Road, Bale Robe, Oromia · Prepared fresh upon ordering</p>
                   </div>
                 </section>
               )}
@@ -518,7 +518,7 @@ export default function Checkout({ cart, setCart, onBack, samples, onRecord, onT
             {/* Order Summary Column */}
             <aside className="checkout-summary-column">
               <section className="checkout-panel checkout-summary">
-                <span className="menu-eyebrow">ABAY KITCHEN · DINE-IN</span>
+                <span className="menu-eyebrow">ZERFE LOUNGE · DINE-IN</span>
                 <h2>{submitted ? 'Order Summary' : 'Total Amount'}</h2>
                 <div className="summary-detail">
                   <span>Subtotal · {count} items</span>
@@ -572,7 +572,7 @@ export default function Checkout({ cart, setCart, onBack, samples, onRecord, onT
         )}
 
         <footer className="checkout-footer">
-          Abay Kitchen <i /> Thoughtfully served with <strong>gebeta<span>QR</span></strong>
+          Zerfe Lounge <i /> Thoughtfully served with <strong>gebeta<span>QR</span></strong>
         </footer>
       </div>
 

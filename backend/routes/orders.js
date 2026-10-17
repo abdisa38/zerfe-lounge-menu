@@ -52,7 +52,7 @@ router.post('/checkout', async (req, res) => {
 
     // Generate unique order reference
     const randomSuffix = Math.random().toString(36).substring(2, 8).toUpperCase();
-    const reference = `GQ-AK-${randomSuffix}`;
+    const reference = `GQ-ZL-${randomSuffix}`;
 
     const order = new Order({
       reference,

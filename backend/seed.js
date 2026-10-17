@@ -66,7 +66,7 @@ const initialDishes = [
     displayOrder: 4
   },
   {
-    name: 'Abay Signature Burger',
+    name: 'Zerfe Signature Burger',
     description: 'Grilled beef, aged cheddar, caramelised onions and house sauce. Served with fries.',
     price: 580,
     category: 'Burgers',
@@ -139,17 +139,17 @@ const initialTables = [
 ];
 
 const initialStaff = [
-  { name: 'Abay Admin', email: 'admin@abaykitchen.et', phone: '+251 91 123 4567', role: 'Owner', pin: '1234', status: 'Active' },
-  { name: 'Abebe Bekele', email: 'abebe@abaykitchen.et', phone: '+251 91 123 4567', role: 'Owner', pin: '1234', status: 'Active' },
-  { name: 'Tigist Alemu', email: 'tigist@abaykitchen.et', phone: '+251 91 234 5678', role: 'Manager', pin: '1234', status: 'Active' },
-  { name: 'Dawit Hailu', email: 'dawit@abaykitchen.et', phone: '+251 91 345 6789', role: 'Kitchen', pin: '1234', status: 'Active' },
-  { name: 'Sara Girma', email: 'sara@abaykitchen.et', phone: '+251 91 456 7890', role: 'Waiter', pin: '1234', status: 'Active' },
-  { name: 'Yohannes Tadesse', email: 'yohannes@abaykitchen.et', phone: '+251 91 567 8901', role: 'Waiter', pin: '1234', status: 'Active' }
+  { name: 'Zerfe Admin', email: 'admin@zerfelounge.et', phone: '+251 92 234 5678', role: 'Owner', pin: '1234', status: 'Active' },
+  { name: 'Abebe Bekele', email: 'abebe@zerfelounge.et', phone: '+251 92 234 5678', role: 'Owner', pin: '1234', status: 'Active' },
+  { name: 'Tigist Alemu', email: 'tigist@zerfelounge.et', phone: '+251 92 234 5679', role: 'Manager', pin: '1234', status: 'Active' },
+  { name: 'Dawit Hailu', email: 'dawit@zerfelounge.et', phone: '+251 92 345 6789', role: 'Kitchen', pin: '1234', status: 'Active' },
+  { name: 'Sara Girma', email: 'sara@zerfelounge.et', phone: '+251 92 456 7890', role: 'Waiter', pin: '1234', status: 'Active' },
+  { name: 'Yohannes Tadesse', email: 'yohannes@zerfelounge.et', phone: '+251 92 567 8901', role: 'Waiter', pin: '1234', status: 'Active' }
 ];
 
 const initialOrders = [
   {
-    reference: 'DEMO-AK-8F92B104',
+    reference: 'DEMO-ZL-8F92B104',
     customerName: 'Abdisa Awel',
     customerPhone: '+251 91 100 2233',
     table: 'Table 08',
@@ -166,7 +166,7 @@ const initialOrders = [
     placedAt: new Date(Date.now() - 15 * 60 * 1000)
   },
   {
-    reference: 'DEMO-AK-3A10C921',
+    reference: 'DEMO-ZL-3A10C921',
     customerName: 'Helen Tsegaye',
     customerPhone: '+251 92 334 5566',
     table: 'Table 08',
@@ -182,12 +182,12 @@ const initialOrders = [
     placedAt: new Date(Date.now() - 50 * 60 * 1000)
   },
   {
-    reference: 'DEMO-AK-5B71C809',
+    reference: 'DEMO-ZL-5B71C809',
     customerName: 'Meron Haile',
     customerPhone: '+251 93 445 6677',
     table: 'Table 04',
     lines: [
-      { name: 'Abay Signature Burger', portion: 'Regular', extras: ['Extra cheese'], instructions: 'Extra crispy fries', unitPrice: 600, quantity: 1 },
+      { name: 'Zerfe Signature Burger', portion: 'Regular', extras: ['Extra cheese'], instructions: 'Extra crispy fries', unitPrice: 600, quantity: 1 },
       { name: 'Garden Margherita', portion: 'Regular', extras: [], instructions: 'Fresh basil', unitPrice: 620, quantity: 1 }
     ],
     orderNotes: 'Quick order for outdoor seating.',
@@ -229,17 +229,17 @@ async function seedDatabase() {
       await Staff.insertMany(initialStaff);
       console.log('Staff members seeded.');
     } else {
-      const adminExists = await Staff.findOne({ email: 'admin@abaykitchen.et' });
+      const adminExists = await Staff.findOne({ email: 'admin@zerfelounge.et' });
       if (!adminExists) {
         await Staff.create({
-          name: 'Abay Admin',
-          email: 'admin@abaykitchen.et',
-          phone: '+251 91 123 4567',
+          name: 'Zerfe Admin',
+          email: 'admin@zerfelounge.et',
+          phone: '+251 92 234 5678',
           role: 'Owner',
           pin: '1234',
           status: 'Active'
         });
-        console.log('Admin account created: admin@abaykitchen.et (PIN: 1234)');
+        console.log('Admin account created: admin@zerfelounge.et (PIN: 1234)');
       }
     }
 

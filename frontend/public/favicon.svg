@@ -1,18 +1,19 @@
 <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="64" height="64" rx="14" fill="#143D2B"/>
-  <rect x="2" y="2" width="60" height="60" rx="12" stroke="#C69234" stroke-width="1.5" stroke-opacity="0.4"/>
-  <!-- QR Corner Marker Top-Left -->
-  <rect x="13" y="13" width="14" height="14" rx="3" stroke="#FAF8F5" stroke-width="2.2"/>
-  <rect x="17.5" y="17.5" width="5" height="5" rx="1.2" fill="#C69234"/>
-  <!-- QR Corner Marker Top-Right -->
-  <rect x="37" y="13" width="14" height="14" rx="3" stroke="#FAF8F5" stroke-width="2.2"/>
-  <rect x="41.5" y="17.5" width="5" height="5" rx="1.2" fill="#C69234"/>
-  <!-- QR Corner Marker Bottom-Left -->
-  <rect x="13" y="37" width="14" height="14" rx="3" stroke="#FAF8F5" stroke-width="2.2"/>
-  <rect x="17.5" y="41.5" width="5" height="5" rx="1.2" fill="#C69234"/>
-  <!-- Modern Gebeta Accents Bottom-Right -->
-  <rect x="36" y="36" width="6" height="6" rx="1" fill="#FAF8F5"/>
-  <rect x="44" y="36" width="6" height="6" rx="1" fill="#C69234"/>
-  <rect x="36" y="44" width="6" height="6" rx="1" fill="#C69234"/>
-  <rect x="44" y="44" width="6" height="6" rx="1" fill="#FAF8F5"/>
+  <!-- Luxury Hotel Badge Background -->
+  <rect width="64" height="64" rx="14" fill="#0E2F20"/>
+  <rect x="2.5" y="2.5" width="59" height="59" rx="11.5" stroke="#C69234" stroke-width="1.5" stroke-opacity="0.6"/>
+  <rect x="5.5" y="5.5" width="53" height="53" rx="8.5" stroke="#C69234" stroke-width="0.7" stroke-dasharray="2 2" stroke-opacity="0.4"/>
+  
+  <!-- Top Center Hotel Crown / Star Accents -->
+  <path d="M32 9L33.3 12.3L36.8 12.6L34.1 14.8L35 18.2L32 16.3L29 18.2L29.9 14.8L27.2 12.6L30.7 12.3L32 9Z" fill="#C69234"/>
+  <circle cx="23" cy="14" r="1.2" fill="#C69234" fill-opacity="0.8"/>
+  <circle cx="41" cy="14" r="1.2" fill="#C69234" fill-opacity="0.8"/>
+
+  <!-- Serif Monogram 'Z' & 'L' in Polished Warm Gold -->
+  <text x="25" y="42" font-family="'Playfair Display', Georgia, serif" font-size="25" font-weight="700" font-style="italic" fill="#FAF8F5" text-anchor="middle">Z</text>
+  <text x="39" y="44" font-family="'Playfair Display', Georgia, serif" font-size="23" font-weight="700" font-style="italic" fill="#C69234" text-anchor="middle">L</text>
+
+  <!-- Bottom Lounge Ribbon / Bar -->
+  <rect x="18" y="50" width="28" height="2" rx="1" fill="#C69234"/>
+  <circle cx="32" cy="51" r="2.2" fill="#FAF8F5"/>
 </svg>
