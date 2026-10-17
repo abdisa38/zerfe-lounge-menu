@@ -679,12 +679,28 @@ type Props = {
   onUpdateOrders: (orders: SessionOrder[]) => void;
   onNavigateToCustomer: () => void;
   onLogout?: () => void;
+  sharedDishes?: any[];
+  onUpdateDishes?: (dishes: any[]) => void;
 };
 
-export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigateToCustomer, onLogout }: Props) {
+export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigateToCustomer, onLogout, sharedDishes, onUpdateDishes }: Props) {
   const [activeTab, setActiveTab] = useState<'overview' | 'orders' | 'menu' | 'categories' | 'tables' | 'staff' | 'reports' | 'settings'>('overview');
   const [tables, setTables] = useState<DiningTable[]>(initialTables);
-  const [dishes, setDishes] = useState<MenuItem[]>(defaultDishes);
+  const [dishes, setDishes] = useState<MenuItem[]>(() => {
+    if (sharedDishes && sharedDishes.length > 0) {
+      return sharedDishes.map((d: any, idx: number) => ({
+        id: d._id || d.id || idx + 1,
+        name: d.name,
+        description: d.description || '',
+        price: Number(d.price) || 0,
+        category: d.category || 'Tibs & Sizzlers',
+        image: d.image || 'photo-1544025162-d76694265947',
+        available: d.unavailable !== true && d.isAvailable !== false && d.available !== false,
+        tag: d.tag || ''
+      }));
+    }
+    return defaultDishes;
+  });
   const [categories, setCategories] = useState<string[]>(initialCategories);
 
   // Staff Role Login State
@@ -693,8 +709,9 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
       const saved = localStorage.getItem('gebeta_staff_user');
       if (saved) {
         const u = JSON.parse(saved);
+        const cleanName = (u.name && !u.name.toLowerCase().includes('abay')) ? u.name : 'Zerfe Admin';
         return {
-          name: u.name || 'Admin',
+          name: cleanName,
           role: (u.role === 'Admin' ? 'Owner' : u.role) as any,
           email: u.email || 'admin@zerfelounge.et'
         };
