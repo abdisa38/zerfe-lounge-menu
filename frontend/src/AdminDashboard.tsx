@@ -687,6 +687,24 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
   const [activeTab, setActiveTab] = useState<'overview' | 'orders' | 'menu' | 'categories' | 'tables' | 'staff' | 'reports' | 'settings'>('overview');
   const [tables, setTables] = useState<DiningTable[]>(initialTables);
   const [dishes, setDishes] = useState<MenuItem[]>(() => {
+    try {
+      const cached = localStorage.getItem('gebeta_local_menu');
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed.map((d: any, idx: number) => ({
+            id: d._id || d.id || idx + 1,
+            name: d.name,
+            description: d.description || '',
+            price: Number(d.price) || 0,
+            category: d.category || 'Tibs & Sizzlers',
+            image: d.image || 'photo-1544025162-d76694265947',
+            available: d.unavailable !== true && d.isAvailable !== false && d.available !== false,
+            tag: d.tag || ''
+          }));
+        }
+      }
+    } catch {}
     if (sharedDishes && sharedDishes.length > 0) {
       return sharedDishes.map((d: any, idx: number) => ({
         id: d._id || d.id || idx + 1,
@@ -752,7 +770,7 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
     // 2. Fetch Menu Items
     api.getMenuItems().then(items => {
       if (items && items.length) {
-        setDishes(items.map((it: any, idx: number) => ({
+        const mapped = items.map((it: any, idx: number) => ({
           id: it._id || it.id || idx + 1,
           name: it.name,
           description: it.description,
@@ -761,7 +779,24 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
           image: it.image,
           available: it.isAvailable !== false,
           tag: it.tag
-        })));
+        }));
+        setDishes(mapped);
+        try {
+          localStorage.setItem('gebeta_local_menu', JSON.stringify(items));
+        } catch {}
+        if (onUpdateDishes) {
+          onUpdateDishes(mapped.map(d => ({
+            id: d.id,
+            name: d.name,
+            description: d.description,
+            price: d.price,
+            category: d.category,
+            image: d.image,
+            tag: d.tag,
+            custom: true,
+            unavailable: !d.available
+          })));
+        }
       }
     }).catch(() => {});
 
@@ -963,8 +998,47 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
     setTimeout(() => setToast(null), 3000);
   };
 
+  // Helper to resize and compress photos from computer/phone for instant upload & storage
+  const compressImageFile = (file: File): Promise<string> => {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const result = e.target?.result as string;
+        if (!result) return resolve('');
+        const img = new Image();
+        img.onload = () => {
+          const maxDim = 1200;
+          let { width, height } = img;
+          if (width > maxDim || height > maxDim) {
+            if (width > height) {
+              height = Math.round((height * maxDim) / width);
+              width = maxDim;
+            } else {
+              width = Math.round((width * maxDim) / height);
+              height = maxDim;
+            }
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          if (!ctx) {
+            return resolve(result);
+          }
+          ctx.drawImage(img, 0, 0, width, height);
+          const compressed = canvas.toDataURL('image/jpeg', 0.85);
+          resolve(compressed);
+        };
+        img.onerror = () => resolve(result);
+        img.src = result;
+      };
+      reader.onerror = () => resolve('');
+      reader.readAsDataURL(file);
+    });
+  };
+
   // Dish Image Upload from Device (Computer or Mobile)
-  const handleImageFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -973,20 +1047,30 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
       return;
     }
 
-    if (file.size > 12 * 1024 * 1024) {
-      showToast('Image file too large (max 12MB). Please select a smaller photo.');
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const base64 = event.target?.result as string;
-      if (base64 && editingItem) {
-        setEditingItem({ ...editingItem, image: base64 });
-        showToast(`Photo loaded from device (${file.name})`);
+    showToast(`Loading & optimizing ${file.name}...`);
+    try {
+      const compressed = await compressImageFile(file);
+      if (compressed && editingItem) {
+        // Immediate preview in dialog
+        setEditingItem(prev => prev ? { ...prev, image: compressed } : null);
+        showToast('Uploading to cloud storage...');
+        try {
+          const uploadedUrl = await api.uploadImage(compressed);
+          if (uploadedUrl && uploadedUrl !== compressed) {
+            setEditingItem(prev => prev ? { ...prev, image: uploadedUrl } : null);
+            showToast('✓ Photo uploaded to cloud storage!');
+          } else {
+            showToast('✓ Photo loaded and ready to save!');
+          }
+        } catch {
+          showToast('✓ Photo loaded and ready to save!');
+        }
       }
-    };
-    reader.readAsDataURL(file);
+    } catch {
+      showToast('Could not process photo. Please try another image.');
+    } finally {
+      if (e.target) e.target.value = '';
+    }
   };
 
   // Dish CRUD: Save (Create or Update)
@@ -1008,12 +1092,22 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
 
     setDishSaving(true);
     try {
+      let finalImageUrl = (editingItem.image || 'photo-1544025162-d76694265947').trim();
+      if (finalImageUrl.startsWith('data:')) {
+        showToast('Saving image to storage...');
+        try {
+          finalImageUrl = await api.uploadImage(finalImageUrl);
+        } catch (uploadErr) {
+          console.warn('Image upload fallback:', uploadErr);
+        }
+      }
+
       const payload: Partial<ApiMenuItem> = {
         name: trimmedName,
         description: (editingItem.description || '').trim(),
         price: priceNum,
         category: editingItem.category || categories.filter(c => c !== 'All Items')[0] || 'Tibs & Sizzlers',
-        image: editingItem.image || 'photo-1544025162-d76694265947',
+        image: finalImageUrl,
         tag: (editingItem.tag || '').trim(),
         isAvailable: editingItem.available !== false,
         isCustomizable: true,
@@ -1034,6 +1128,9 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
         };
         const nextList = [newObj, ...dishes];
         setDishes(nextList);
+        try {
+          localStorage.setItem('gebeta_local_menu', JSON.stringify(nextList));
+        } catch {}
         if (onUpdateDishes) {
           onUpdateDishes(nextList.map(d => ({
             id: d.id,
@@ -1056,12 +1153,15 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
           description: updated.description || '',
           price: updated.price,
           category: updated.category,
-          image: updated.image,
+          image: updated.image || finalImageUrl,
           available: updated.isAvailable !== false,
           tag: updated.tag
         };
         const nextList = dishes.map(d => (d.id === editingItem.id ? updatedObj : d));
         setDishes(nextList);
+        try {
+          localStorage.setItem('gebeta_local_menu', JSON.stringify(nextList));
+        } catch {}
         if (onUpdateDishes) {
           onUpdateDishes(nextList.map(d => ({
             id: d.id,
@@ -1096,6 +1196,9 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
       await api.deleteMenuItem(dish.id);
       const nextList = dishes.filter(d => d.id !== dish.id);
       setDishes(nextList);
+      try {
+        localStorage.setItem('gebeta_local_menu', JSON.stringify(nextList));
+      } catch {}
       if (onUpdateDishes) {
         onUpdateDishes(nextList.map(d => ({
           id: d.id,
@@ -1126,8 +1229,24 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
     }
     const nextList = dishes.map(d => (d.id === dish.id ? { ...d, available: nextAvail } : d));
     setDishes(nextList);
+    try {
+      localStorage.setItem('gebeta_local_menu', JSON.stringify(nextList));
+    } catch {}
     if (onUpdateDishes) {
       onUpdateDishes(nextList.map(d => ({
+        id: d.id,
+        name: d.name,
+        description: d.description,
+        price: d.price,
+        category: d.category,
+        image: d.image,
+        tag: d.tag,
+        custom: true,
+        unavailable: !d.available
+      })));
+    }
+    showToast(`${dish.name} is now ${nextAvail ? 'Available' : 'Sold Out'}`);
+  };
         id: d.id,
         name: d.name,
         description: d.description,

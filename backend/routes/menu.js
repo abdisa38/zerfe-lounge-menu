@@ -3,10 +3,14 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const MenuItem = require('../models/MenuItem');
 
-// Helper to query item by ObjectId, name, or search term
+// Helper to query item by ObjectId, displayOrder number, or dish name
 const findItem = async (id, fallbackName) => {
   if (id && mongoose.Types.ObjectId.isValid(id)) {
     const item = await MenuItem.findById(id);
+    if (item) return item;
+  }
+  if (id !== undefined && !isNaN(Number(id))) {
+    const item = await MenuItem.findOne({ displayOrder: Number(id) });
     if (item) return item;
   }
   const searchName = fallbackName || id;
@@ -120,16 +124,10 @@ router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
     let dish = null;
-
-    if (mongoose.Types.ObjectId.isValid(id)) {
-      dish = await MenuItem.findByIdAndDelete(id);
+    const target = await findItem(id, req.query.name || req.body?.name);
+    if (target) {
+      dish = await MenuItem.findByIdAndDelete(target._id);
     }
-
-    if (!dish && id && isNaN(Number(id))) {
-      const escaped = id.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      dish = await MenuItem.findOneAndDelete({ name: new RegExp('^' + escaped + '$', 'i') });
-    }
-
     res.json({ success: true, message: 'Dish deleted successfully', data: dish });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
