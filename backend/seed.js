@@ -7,123 +7,253 @@ const Staff = require('./models/Staff');
 const Setting = require('./models/Setting');
 
 const initialCategories = [
-  { name: 'Breakfast', slug: 'breakfast', description: 'Fresh morning meals, shakshuka, and warm bread', icon: 'coffee', displayOrder: 1 },
-  { name: 'Ethiopian Food', slug: 'ethiopian-food', description: 'Traditional stews, spicy wats, and injera platters', icon: 'utensils', displayOrder: 2 },
-  { name: 'Main Courses', slug: 'main-courses', description: 'Flame-grilled chicken, steak, and wholesome mains', icon: 'bowl', displayOrder: 3 },
-  { name: 'Burgers', slug: 'burgers', description: 'Gourmet handcrafted burgers with crispy seasoned fries', icon: 'burger', displayOrder: 4 },
-  { name: 'Pizza', slug: 'pizza', description: 'Stone-baked thin-crust artisan pizzas with fresh toppings', icon: 'pizza', displayOrder: 5 },
-  { name: 'Drinks', slug: 'drinks', description: 'Freshly blended fruit juices, coffee, and chilled beverages', icon: 'glass', displayOrder: 6 },
-  { name: 'Desserts', slug: 'desserts', description: 'Decadent chocolate cakes, ice cream, and sweet finishes', icon: 'cake', displayOrder: 7 }
+  { name: 'Tibs & Sizzlers', slug: 'tibs-sizzlers', description: 'Dry-roasted, sizzling clay-pot, and prime cut beef & lamb tibs', icon: 'flame', displayOrder: 1 },
+  { name: 'Traditional Wats', slug: 'traditional-wats', description: 'Slow-simmered rich red berbere and golden mild Ethiopian stews', icon: 'bowl', displayOrder: 2 },
+  { name: 'Raw & Delicacies', slug: 'raw-delicacies', description: 'Freshly carved cuts, seasoned kitfo, gored gored, and dulet', icon: 'utensils', displayOrder: 3 },
+  { name: 'Hotel Meat Specialties', slug: 'hotel-meat-specialties', description: 'Gomen be siga, bone-in broth kekel, dinich be siga, and tihlo', icon: 'crown', displayOrder: 4 },
+  { name: 'Firfir & Hybrids', slug: 'firfir-hybrids', description: 'Crispy dirkosh firfir with kitfo/quanta and sizzling bozena shiro', icon: 'coffee', displayOrder: 5 }
 ];
 
 const initialDishes = [
   {
-    name: 'Doro Wat',
-    description: 'Slow-simmered chicken in a rich berbere sauce, with a boiled egg and soft injera.',
+    name: 'Doro Wat (ዶሮ ወጥ)',
+    description: 'A rich, slow-cooked chicken stew seasoned with berbere spice, niter kibbeh (clarified spiced butter), onions, and garlic, traditionally served with a hard-boiled egg.',
     price: 680,
-    category: 'Ethiopian Food',
+    category: 'Traditional Wats',
     image: 'photo-1746716447103-e1618bbd0669',
-    tag: 'House favourite',
+    tag: 'House Special',
     isCustomizable: true,
     isAvailable: true,
-    prepTime: '20-25 min',
+    prepTime: '25-30 min',
     displayOrder: 1
   },
   {
-    name: 'Sizzling Beef Tibs',
-    description: 'Tender beef, rosemary, peppers and onions. Served sizzling, with fresh injera.',
-    price: 720,
-    category: 'Ethiopian Food',
+    name: 'Kitfo (ክትፎ)',
+    description: 'Finely minced raw, medium-rare (leb leb), or cooked beef seasoned with mitmita (spicy chili powder) and mixed with warm niter kibbeh. Served with kocho, ayib, and gomen.',
+    price: 750,
+    category: 'Raw & Delicacies',
     image: 'photo-1544025162-d76694265947',
-    tag: 'Popular',
+    tag: "Chef's Choice",
     isCustomizable: true,
     isAvailable: true,
     prepTime: '15-20 min',
     displayOrder: 2
   },
   {
-    name: 'The Garden Beyaynetu',
-    description: 'A colourful spread of lentils, seasonal greens and spiced vegetables on injera.',
-    price: 460,
-    category: 'Ethiopian Food',
-    image: 'photo-1593252719532-53f183016149',
-    tag: 'Plant-based',
-    isCustomizable: false,
-    isAvailable: true,
-    prepTime: '10-15 min',
-    displayOrder: 3
-  },
-  {
-    name: 'Herb-Grilled Chicken',
-    description: 'Flame-grilled chicken, garden vegetables and our signature herb dressing.',
-    price: 650,
-    category: 'Main Courses',
-    image: 'photo-1670398564097-0762e1b30b3a',
-    tag: '',
-    isCustomizable: false,
-    isAvailable: true,
-    prepTime: '20-25 min',
-    displayOrder: 4
-  },
-  {
-    name: 'Zerfe Signature Burger',
-    description: 'Grilled beef, aged cheddar, caramelised onions and house sauce. Served with fries.',
-    price: 580,
-    category: 'Burgers',
-    image: 'photo-1568901346375-23c9450c58cd',
-    tag: '',
+    name: 'Derek Tibs (ደረቅ ጥብስ)',
+    description: 'Dry-roasted or pan-fried chunks of beef, lamb, or goat cooked with onions, garlic, and peppers until slightly crispy.',
+    price: 720,
+    category: 'Tibs & Sizzlers',
+    image: 'photo-1555939594-58d7cb561ad1',
+    tag: 'Popular',
     isCustomizable: true,
     isAvailable: true,
     prepTime: '15-20 min',
+    displayOrder: 3
+  },
+  {
+    name: 'Awaze Tibs (አዋዜ ጥብስ)',
+    description: 'Sautéed meat (beef or lamb) tossed in a tangy and spicy awaze chili paste sauce with peppers and onions.',
+    price: 740,
+    category: 'Tibs & Sizzlers',
+    image: 'photo-1544025162-d76694265947',
+    tag: 'Spicy',
+    isCustomizable: true,
+    isAvailable: true,
+    prepTime: '15-20 min',
+    displayOrder: 4
+  },
+  {
+    name: 'Shekla Tibs (ሸክላ ጥብስ)',
+    description: 'Meat strips cooked and served sizzling hot in a traditional clay pot (shekla) usually placed over glowing hot coals.',
+    price: 780,
+    category: 'Tibs & Sizzlers',
+    image: 'photo-1529193591184-b1d58069ecdd',
+    tag: 'Signature Sizzler',
+    isCustomizable: true,
+    isAvailable: true,
+    prepTime: '20-25 min',
     displayOrder: 5
   },
   {
-    name: 'Garden Margherita',
-    description: 'Stone-baked dough, tomato, fresh mozzarella and a scattering of basil.',
+    name: 'Key Wat / Sega Wat (ሥጋ ወጥ)',
+    description: 'A thick, spicy red beef stew simmered slowly in a berbere sauce, onions, ginger, and garlic.',
     price: 620,
-    category: 'Pizza',
-    image: 'photo-1574071318508-1cdbab80d002',
-    tag: 'Vegetarian',
-    isCustomizable: false,
+    category: 'Traditional Wats',
+    image: 'photo-1588166524941-3bf61a9c41db',
+    tag: 'Classic Stew',
+    isCustomizable: true,
     isAvailable: true,
-    prepTime: '15-20 min',
+    prepTime: '20-25 min',
     displayOrder: 6
   },
   {
-    name: 'Fresh Mango Juice',
-    description: 'Freshly blended ripe mango. Sunshine in a glass, with no added sugar.',
-    price: 180,
-    category: 'Drinks',
-    image: 'photo-1622597467836-f3285f2131b8',
-    tag: '',
-    isCustomizable: false,
+    name: 'Alicha Wat (አሊቻ ወጥ)',
+    description: 'A mild, non-spicy yellow beef or lamb stew made with turmeric, ginger, garlic, and onions instead of berbere.',
+    price: 590,
+    category: 'Traditional Wats',
+    image: 'photo-1547592180-85f173990554',
+    tag: 'Mild Stew',
+    isCustomizable: true,
     isAvailable: true,
-    prepTime: '5-10 min',
+    prepTime: '20-25 min',
     displayOrder: 7
   },
   {
-    name: 'Chocolate Indulgence',
-    description: 'Warm chocolate cake with a soft centre and a scoop of vanilla ice cream.',
-    price: 320,
-    category: 'Desserts',
-    image: 'photo-1578985545062-69928b1d9587',
-    tag: '',
-    isCustomizable: false,
-    isAvailable: false,
-    prepTime: '10-15 min',
+    name: 'Gomen be Siga (ጎመን በሥጋ)',
+    description: 'Tender chunks of beef sautéed and simmered with chopped collard greens (gomen), garlic, ginger, and spiced butter.',
+    price: 580,
+    category: 'Hotel Meat Specialties',
+    image: 'photo-1574484284002-952d92456975',
+    tag: 'Traditional',
+    isCustomizable: true,
+    isAvailable: true,
+    prepTime: '15-20 min',
     displayOrder: 8
   },
   {
-    name: 'Morning Shakshuka',
-    description: 'Free-range eggs nestled in slow-cooked tomatoes, with warm sourdough.',
-    price: 340,
-    category: 'Breakfast',
-    image: 'photo-1525351484163-7529414344d8',
-    tag: '',
-    isCustomizable: false,
+    name: 'Gored Gored (ጎረድ ጎረድ)',
+    description: 'Cubed raw or very rare beef seasoned with mitmita, spices, and niter kibbeh, usually dipped in awaze.',
+    price: 760,
+    category: 'Raw & Delicacies',
+    image: 'photo-1603048588665-791ca8aea617',
+    tag: 'Raw Cut',
+    isCustomizable: true,
     isAvailable: true,
-    prepTime: '12-18 min',
+    prepTime: '10-15 min',
     displayOrder: 9
+  },
+  {
+    name: 'Dulet (ዱለት)',
+    description: 'A finely chopped and spiced dish made from a mix of finely minced beef, liver, and tripe cooked with niter kibbeh, onions, garlic, and mitmita.',
+    price: 640,
+    category: 'Raw & Delicacies',
+    image: 'photo-1544025162-d76694265947',
+    tag: 'Specialty',
+    isCustomizable: true,
+    isAvailable: true,
+    prepTime: '15-20 min',
+    displayOrder: 10
+  },
+  {
+    name: 'Tere Siga (ጥሬ ሥጋ)',
+    description: 'Fresh raw meat sliced straight from the carcass at the table, served with mitmita and awaze for dipping.',
+    price: 850,
+    category: 'Raw & Delicacies',
+    image: 'photo-1588166524941-3bf61a9c41db',
+    tag: 'Butcher Cut',
+    isCustomizable: true,
+    isAvailable: true,
+    prepTime: '10-15 min',
+    displayOrder: 11
+  },
+  {
+    name: 'Kekel (ቀቅል)',
+    description: 'A light, clear-broth soup or mild stew typically made with bone-in lamb or beef, potatoes, and green peppers.',
+    price: 520,
+    category: 'Hotel Meat Specialties',
+    image: 'photo-1547592180-85f173990554',
+    tag: 'Nourishing Broth',
+    isCustomizable: true,
+    isAvailable: true,
+    prepTime: '15-20 min',
+    displayOrder: 12
+  },
+  {
+    name: 'Dinich be Siga (ድንች በሥጋ)',
+    description: 'A comforting home-style or hotel-menu stew made with chunks of beef and potatoes simmered in a mild or spiced sauce.',
+    price: 540,
+    category: 'Hotel Meat Specialties',
+    image: 'photo-1588166524941-3bf61a9c41db',
+    tag: 'Comfort Food',
+    isCustomizable: true,
+    isAvailable: true,
+    prepTime: '15-20 min',
+    displayOrder: 13
+  },
+  {
+    name: 'Yebeg Tibs (የበግ ጥብስ)',
+    description: 'Sautéed or grilled tender mutton (lamb) marinated in local herbs and spices.',
+    price: 760,
+    category: 'Tibs & Sizzlers',
+    image: 'photo-1555939594-58d7cb561ad1',
+    tag: 'Highland Lamb',
+    isCustomizable: true,
+    isAvailable: true,
+    prepTime: '15-20 min',
+    displayOrder: 14
+  },
+  {
+    name: 'Zigni (ዝግኒ)',
+    description: 'An East-African-style spiced beef or lamb cube stew cooked with heavy tomatoes and berbere, closely related to traditional red stews.',
+    price: 650,
+    category: 'Traditional Wats',
+    image: 'photo-1588166524941-3bf61a9c41db',
+    tag: 'Slow Braised',
+    isCustomizable: true,
+    isAvailable: true,
+    prepTime: '20-25 min',
+    displayOrder: 15
+  },
+  {
+    name: 'Chikina Tibs (የጭቅና ጥብስ)',
+    description: 'Premium, exceptionally tender tibs fillet cut from the beef tenderloin. It is lightly pan-fried with onions, garlic, tomatoes, fresh rosemary, and green chilies, offering a juicy texture.',
+    price: 890,
+    category: 'Tibs & Sizzlers',
+    image: 'photo-1544025162-d76694265947',
+    tag: 'Prime Tenderloin',
+    isCustomizable: true,
+    isAvailable: true,
+    prepTime: '15-20 min',
+    displayOrder: 16
+  },
+  {
+    name: 'Dirkosh Firfir be Kitfo / Bequanta (ድርቆሽ ፍርፍር በክትፎ/በቋንጣ)',
+    description: 'Dried, crispy pieces of injera (dirkosh) rehydrated in a rich spiced butter and berbere sauce, layered with beef jerky (quanta) or topped with fresh, warm kitfo.',
+    price: 740,
+    category: 'Firfir & Hybrids',
+    image: 'photo-1593252719532-53f183016149',
+    tag: 'Deluxe Firfir',
+    isCustomizable: true,
+    isAvailable: true,
+    prepTime: '15-20 min',
+    displayOrder: 17
+  },
+  {
+    name: 'Tihlo (ጥህሎ)',
+    description: 'A celebratory dish originating from the Tigray region. It consists of smooth, kneaded barley dough shaped into small rounds, which are speared with a traditional wooden fork and dipped into a rich, spicy lamb or beef stew (wret).',
+    price: 680,
+    category: 'Hotel Meat Specialties',
+    image: 'photo-1544025162-d76694265947',
+    tag: 'Cultural Platter',
+    isCustomizable: true,
+    isAvailable: true,
+    prepTime: '20-25 min',
+    displayOrder: 18
+  },
+  {
+    name: 'Minchet Abish (ምንቸት አቢሽ)',
+    description: 'A finely ground beef stew cooked with onions, garlic, ginger, and subtly flavored with fenugreek (abish). It is served as a spicy red stew or a mild yellow alicha, often topped with hard-boiled eggs.',
+    price: 610,
+    category: 'Traditional Wats',
+    image: 'photo-1746716447103-e1618bbd0669',
+    tag: 'House Classic',
+    isCustomizable: true,
+    isAvailable: true,
+    prepTime: '15-20 min',
+    displayOrder: 19
+  },
+  {
+    name: 'Siga Firfir / Bozena Shiro (ቦዘና ሽሮ በሥጋ)',
+    description: 'A highly popular hybrid hotel dish where tender chunks of seasoned beef or lamb are simmered directly inside a thick, boiling pot of Shiro (chickpea powder stew) with plenty of herbed butter.',
+    price: 580,
+    category: 'Firfir & Hybrids',
+    image: 'photo-1593252719532-53f183016149',
+    tag: 'Hotel Favourite',
+    isCustomizable: true,
+    isAvailable: true,
+    prepTime: '15-20 min',
+    displayOrder: 20
   }
 ];
 
@@ -154,12 +284,12 @@ const initialOrders = [
     customerPhone: '+251 91 100 2233',
     table: 'Table 08',
     lines: [
-      { name: 'Doro Wat', portion: 'Regular', extras: ['Extra egg'], instructions: 'Less spicy, please.', unitPrice: 740, quantity: 1 },
-      { name: 'Sizzling Beef Tibs', portion: 'Regular', extras: ['Extra injera'], instructions: 'Medium rare meat.', unitPrice: 765, quantity: 1 }
+      { name: 'Doro Wat (ዶሮ ወጥ)', portion: 'Regular', extras: ['Extra egg'], instructions: 'Less spicy, please.', unitPrice: 740, quantity: 1 },
+      { name: 'Shekla Tibs (ሸክላ ጥብስ)', portion: 'Regular', extras: ['Extra injera'], instructions: 'Medium rare meat, sizzling.', unitPrice: 825, quantity: 1 }
     ],
     orderNotes: 'Please bring all food together with extra napkins.',
-    subtotal: 1505,
-    total: 1505,
+    subtotal: 1565,
+    total: 1565,
     status: 'Preparing',
     paymentMethod: 'Telebirr',
     paymentStatus: 'Paid',
@@ -171,11 +301,12 @@ const initialOrders = [
     customerPhone: '+251 92 334 5566',
     table: 'Table 08',
     lines: [
-      { name: 'Fresh Mango Juice', portion: 'Regular', extras: [], instructions: 'With crushed ice', unitPrice: 180, quantity: 2 }
+      { name: 'Kitfo (ክትፎ)', portion: 'Regular', extras: ['Extra ayib'], instructions: 'Leb-leb (medium rare)', unitPrice: 820, quantity: 1 },
+      { name: 'Kekel (ቀቅል)', portion: 'Regular', extras: [], instructions: 'Hot clear broth', unitPrice: 520, quantity: 1 }
     ],
-    orderNotes: 'Cold drinks first.',
-    subtotal: 360,
-    total: 360,
+    orderNotes: 'Serve broth first as starter.',
+    subtotal: 1340,
+    total: 1340,
     status: 'Completed',
     paymentMethod: 'CBE Birr',
     paymentStatus: 'Paid',
@@ -187,12 +318,12 @@ const initialOrders = [
     customerPhone: '+251 93 445 6677',
     table: 'Table 04',
     lines: [
-      { name: 'Zerfe Signature Burger', portion: 'Regular', extras: ['Extra cheese'], instructions: 'Extra crispy fries', unitPrice: 600, quantity: 1 },
-      { name: 'Garden Margherita', portion: 'Regular', extras: [], instructions: 'Fresh basil', unitPrice: 620, quantity: 1 }
+      { name: 'Chikina Tibs (የጭቅና ጥብስ)', portion: 'Regular', extras: ['Awaze sauce'], instructions: 'Tender fillet, well seared', unitPrice: 930, quantity: 1 },
+      { name: 'Siga Firfir / Bozena Shiro (ቦዘና ሽሮ በሥጋ)', portion: 'Regular', extras: ['Extra kibbeh'], instructions: 'Bubbling hot in clay pot', unitPrice: 640, quantity: 1 }
     ],
     orderNotes: 'Quick order for outdoor seating.',
-    subtotal: 1220,
-    total: 1220,
+    subtotal: 1570,
+    total: 1570,
     status: 'New',
     paymentMethod: 'Chapa',
     paymentStatus: 'Paid',
@@ -200,32 +331,43 @@ const initialOrders = [
   }
 ];
 
-async function seedDatabase() {
+async function seedDatabase(forceRefresh = false) {
   try {
-    const categoryCount = await Category.countDocuments();
-    if (categoryCount === 0) {
-      console.log('Seeding initial categories...');
-      await Category.insertMany(initialCategories);
-      console.log('Categories seeded.');
-    }
-
+    const hasLegacyBurger = await Category.findOne({ slug: 'burgers' });
     const dishCount = await MenuItem.countDocuments();
-    if (dishCount === 0) {
-      console.log('Seeding initial dishes...');
+
+    if (forceRefresh || hasLegacyBurger || dishCount < 15) {
+      console.log('Refreshing database with 20 traditional Ethiopian hotel meat dishes...');
+      await Category.deleteMany({});
+      await MenuItem.deleteMany({});
+      await Order.deleteMany({});
+
+      await Category.insertMany(initialCategories);
       await MenuItem.insertMany(initialDishes);
-      console.log('Dishes seeded.');
+      await Order.insertMany(initialOrders);
+      console.log(`Seeded ${initialCategories.length} hotel categories and ${initialDishes.length} traditional meat dishes.`);
+    } else {
+      const categoryCount = await Category.countDocuments();
+      if (categoryCount === 0) {
+        await Category.insertMany(initialCategories);
+      }
+      if (dishCount === 0) {
+        await MenuItem.insertMany(initialDishes);
+      }
+      const orderCount = await Order.countDocuments();
+      if (orderCount === 0) {
+        await Order.insertMany(initialOrders);
+      }
     }
 
     const tableCount = await Table.countDocuments();
     if (tableCount === 0) {
-      console.log('Seeding initial dining tables...');
       await Table.insertMany(initialTables);
       console.log('Tables seeded.');
     }
 
     const staffCount = await Staff.countDocuments();
     if (staffCount === 0) {
-      console.log('Seeding initial staff members...');
       await Staff.insertMany(initialStaff);
       console.log('Staff members seeded.');
     } else {
@@ -243,24 +385,32 @@ async function seedDatabase() {
       }
     }
 
-    const orderCount = await Order.countDocuments();
-    if (orderCount === 0) {
-      console.log('Seeding initial demo orders...');
-      await Order.insertMany(initialOrders);
-      console.log('Orders seeded.');
-    }
-
     const settingCount = await Setting.countDocuments();
     if (settingCount === 0) {
-      console.log('Seeding initial settings...');
       await Setting.create({});
       console.log('Settings seeded.');
     }
 
-    console.log('All MongoDB database seeds verified!');
+    console.log('All MongoDB database seeds verified for Zerfe Lounge Hotel!');
   } catch (err) {
     console.error('Error seeding database:', err.message);
   }
+}
+
+if (require.main === module) {
+  require('dotenv').config();
+  const MONGO_URI = process.env.MONGO_URI || process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/gebeta-qr';
+  mongoose.connect(MONGO_URI)
+    .then(async () => {
+      console.log('Connected to MongoDB for direct seeding...');
+      await seedDatabase(true);
+      console.log('Direct seeding complete.');
+      process.exit(0);
+    })
+    .catch((err) => {
+      console.error('Failed to connect for seeding:', err.message);
+      process.exit(1);
+    });
 }
 
 module.exports = seedDatabase;

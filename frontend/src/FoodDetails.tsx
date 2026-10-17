@@ -6,10 +6,101 @@ export type CartLine={key:string;dish:DetailDish;quantity:number;unitPrice:numbe
 type Choice={name:string;price:number;description?:string};
 const format=(n:number)=>`ETB ${n.toLocaleString()}`;
 function getOptions(d:DetailDish):{portions:Choice[];extras:Choice[];ingredients:string;allergens:string}{
- if(d.id===1)return {portions:[{name:'Regular',price:0,description:'Our classic serving'},{name:'Large',price:180,description:'A little more to love'}],extras:[{name:'Extra egg',price:60},{name:'Extra injera',price:45},{name:'Additional sauce',price:40}],ingredients:'Chicken, slow-cooked onions, berbere, niter kibbeh, garlic, ginger and a boiled egg. Served with injera.',allergens:'Contains egg and milk. Injera may contain wheat. Please speak to your server about allergies.'};
- if(d.id===2)return {portions:[{name:'Regular',price:0},{name:'Large',price:200}],extras:[{name:'Extra injera',price:45},{name:'Awaze sauce',price:40}],ingredients:'Beef, rosemary, peppers, onions and injera.',allergens:'May contain milk and wheat. Ask your server about allergies.'};
- if(d.id===5)return {portions:[{name:'Single patty',price:0},{name:'Double patty',price:160}],extras:[{name:'Extra cheese',price:50},{name:'Extra fries',price:90}],ingredients:'Beef, cheddar, caramelised onion, house sauce, bun and fries.',allergens:'Contains wheat, milk and egg.'};
- return {portions:[],extras:[],ingredients:d.description,allergens:'Please ask your server for ingredient and allergen information.'};
+ const name = d.name.toLowerCase();
+ if(name.includes('kitfo') || name.includes('ክትፎ')){
+  return {
+   portions:[
+    {name:'Regular (Leb-Leb)',price:0,description:'Warm with spiced butter & mitmita'},
+    {name:'Raw (Tire)',price:0,description:'Traditional authentic raw preparation'},
+    {name:'Fully Cooked (Yebesele)',price:0,description:'Gently pan-cooked with spiced butter'},
+    {name:'Large Platter',price:220,description:'Double portion with Kocho & Ayib'}
+   ],
+   extras:[
+    {name:'Extra Kocho (Enset bread)',price:80},
+    {name:'Fresh Ayib (Cottage cheese)',price:70},
+    {name:'Extra Niter Kibbeh (Spiced butter)',price:60},
+    {name:'Extra Mitmita & Senafich',price:35}
+   ],
+   ingredients:'Finely minced lean beef, authentic Ethiopian niter kibbeh (clarified spiced butter), spicy mitmita chili, and cardamom. Served with fresh injera or kocho, ayib, and gomen.',
+   allergens:'Contains dairy (spiced butter, cottage cheese). Injera may contain wheat.'
+  };
+ }
+ if(name.includes('tibs') || name.includes('ጥብስ')){
+  return {
+   portions:[
+    {name:'Regular Pan',price:0,description:'Sizzling pan serving for one'},
+    {name:'Large Platter',price:240,description:'Generous sharing portion'}
+   ],
+   extras:[
+    {name:'Extra Injera Roll',price:45},
+    {name:'Spicy Awaze Sauce Dip',price:40},
+    {name:'Senafich Mustard Dip',price:35},
+    {name:'Fresh Rosemary & Sliced Chilies',price:30}
+   ],
+   ingredients:'Prime meat cuts pan-seared with red onions, garlic, fresh rosemary sprigs, green jalapeño peppers, and Ethiopian herbal butter. Served sizzling with fresh injera.',
+   allergens:'Dairy present in spiced butter. Injera may contain teff and wheat.'
+  };
+ }
+ if(name.includes('doro') || name.includes('ዶሮ')){
+  return {
+   portions:[
+    {name:'Regular Portion',price:0,description:'Tender chicken cut with hard-boiled egg'},
+    {name:'Double Piece Serving',price:240,description:'Two chicken cuts with two hard-boiled eggs'}
+   ],
+   extras:[
+    {name:'Extra Hard-Boiled Egg',price:60},
+    {name:'Extra Injera Roll',price:45},
+    {name:'Fresh Ayib (Cottage Cheese)',price:70},
+    {name:'Extra Rich Berbere Gravy',price:50}
+   ],
+   ingredients:'Slow-simmered chicken, caramelized red onions, rich berbere chili spice, garlic, ginger, niter kibbeh, and a hard-boiled egg. Served with soft teff injera.',
+   allergens:'Contains poultry, egg, and dairy (clarified butter). Injera may contain wheat.'
+  };
+ }
+ if(name.includes('tere siga') || name.includes('ጥሬ ሥጋ') || name.includes('gored') || name.includes('ጎረድ') || name.includes('dulet') || name.includes('ዱለት')){
+  return {
+   portions:[
+    {name:'1/2 Kilogram (500g)',price:0,description:'Standard hotel dining cut'},
+    {name:'1 Kilogram (1000g)',price:480,description:'Full table sharing portion'}
+   ],
+   extras:[
+    {name:'Spicy Awaze & Senafich',price:45},
+    {name:'Mitmita & Spiced Butter Dip',price:55},
+    {name:'Fresh Warm Injera Roll',price:45}
+   ],
+   ingredients:'Prime butcher-carved beef or finely minced liver and tripe with mitmita, cardamom, and niter kibbeh. Served fresh with dipping sauces and injera.',
+   allergens:'Raw meat preparation. Dairy present in spiced butter. Mitmita contains hot chili pepper.'
+  };
+ }
+ if(name.includes('firfir') || name.includes('ፍርፍር') || name.includes('shiro') || name.includes('ሽሮ')){
+  return {
+   portions:[
+    {name:'Traditional Clay Pot',price:0,description:'Bubbling hot serving'},
+    {name:'Large Family Pot',price:180,description:'Hearty sharing serving'}
+   ],
+   extras:[
+    {name:'Extra Spiced Butter (Kibbeh)',price:60},
+    {name:'Extra Injera Roll',price:45},
+    {name:'Extra Sautéed Beef Chunks',price:130},
+    {name:'Fresh Green Jalapeños',price:25}
+   ],
+   ingredients:'Tender beef cuts, sun-dried dirkosh injera or slow-cooked chickpea flour, red onions, garlic, berbere, and herbal spiced butter.',
+   allergens:'Legumes (chickpea), dairy (butter). Injera may contain teff and wheat.'
+  };
+ }
+ return {
+  portions:[
+   {name:'Regular Serving',price:0,description:'Standard hotel portion'},
+   {name:'Large Serving',price:170,description:'Generous hotel portion'}
+  ],
+  extras:[
+   {name:'Extra Injera Roll',price:45},
+   {name:'Extra Niter Kibbeh',price:50},
+   {name:'Spicy Awaze Dip',price:40}
+  ],
+  ingredients:d.description,
+  allergens:'Prepared with traditional Ethiopian spices, onions, garlic, and clarified butter. Please speak to your server regarding dietary preferences.'
+ };
 }
 export function QuantitySelector({value,onChange}:{value:number;onChange:(n:number)=>void}){return <div className="detail-quantity"><button aria-label="Decrease quantity" disabled={value===1} onClick={()=>onChange(Math.max(1,value-1))}>−</button><output aria-label="Quantity">{value}</output><button aria-label="Increase quantity" onClick={()=>onChange(value+1)}>+</button></div>}
 export function FoodDetails({dish,onClose,onAdd,initial}:{initial?:CartLine;dish:DetailDish;onClose:()=>void;onAdd:(line:CartLine)=>void}){
