@@ -197,6 +197,23 @@ export const api = {
     }
   },
 
+  // Image Upload (Cloudinary CDN or local storage)
+  async uploadImage(image: string): Promise<string> {
+    if (!image) return image;
+    // If it's already an external web URL, return directly
+    if (image.startsWith('http://') || image.startsWith('https://')) {
+      return image;
+    }
+    const res = await requestApi<{ url: string }>('/upload', {
+      method: 'POST',
+      body: JSON.stringify({ image })
+    });
+    if (res.success && res.data?.url) {
+      return res.data.url;
+    }
+    return image;
+  },
+
   // Menu Items CRUD
   async getMenuItems(category?: string): Promise<ApiMenuItem[]> {
     const query = category && category !== 'All Items' ? `?category=${encodeURIComponent(category)}` : '';
@@ -259,12 +276,18 @@ export const api = {
       : ({ ...item, _id: String(id), id } as ApiMenuItem);
 
     try {
-      const cached: ApiMenuItem[] = JSON.parse(localStorage.getItem('gebeta_local_menu') || '[]');
-      const idx = cached.findIndex(c => String(c._id) === String(id) || String(c.id) === String(id));
+      let cached: ApiMenuItem[] = JSON.parse(localStorage.getItem('gebeta_local_menu') || '[]');
+      const idx = cached.findIndex(c =>
+        (id && (String(c._id) === String(id) || String(c.id) === String(id))) ||
+        (item.name && c.name && c.name.trim().toLowerCase() === item.name.trim().toLowerCase())
+      );
+
       if (idx !== -1) {
         cached[idx] = { ...cached[idx], ...updatedItem };
-        localStorage.setItem('gebeta_local_menu', JSON.stringify(cached));
+      } else {
+        cached.unshift(updatedItem);
       }
+      localStorage.setItem('gebeta_local_menu', JSON.stringify(cached));
     } catch {}
 
     return updatedItem;
