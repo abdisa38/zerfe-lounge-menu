@@ -5,8 +5,8 @@ import Checkout from './Checkout';
 import OrderTracking, { type SessionOrder } from './OrderTracking';
 import { FoodDetails, type CartLine } from './FoodDetails';
 import AdminDashboard from './AdminDashboard';
-import { api } from './api';
-const photo=(id:string,w=700)=>`https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=85`;
+import { api, getDishImageUrl } from './api';
+const photo = (id: string, w = 700) => getDishImageUrl(id, w);
 const defaultCategories = ['All Items', 'Tibs & Sizzlers', 'Traditional Wats', 'Raw & Delicacies', 'Hotel Meat Specialties', 'Firfir & Hybrids'];
 type Dish={id:number|string;name:string;description:string;price:number;category:string;image:string;tag?:string;custom?:boolean;unavailable?:boolean};
 const defaultDishes: Dish[] = [

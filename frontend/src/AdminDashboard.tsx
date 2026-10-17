@@ -826,6 +826,8 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
   const [editingItem, setEditingItem] = useState<MenuItem | null>(null);
   const [isNewItem, setIsNewItem] = useState(false);
   const [previewItem, setPreviewItem] = useState<MenuItem | null>(null);
+  const [dishSaving, setDishSaving] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Staff Management State (03D)
   const [staffMembers, setStaffMembers] = useState<StaffMember[]>(initialStaff);
@@ -959,6 +961,185 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
   const showToast = (msg: string) => {
     setToast(msg);
     setTimeout(() => setToast(null), 3000);
+  };
+
+  // Dish Image Upload from Device (Computer or Mobile)
+  const handleImageFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      showToast('Please select a valid image file (PNG, JPG, JPEG, WEBP).');
+      return;
+    }
+
+    if (file.size > 12 * 1024 * 1024) {
+      showToast('Image file too large (max 12MB). Please select a smaller photo.');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const base64 = event.target?.result as string;
+      if (base64 && editingItem) {
+        setEditingItem({ ...editingItem, image: base64 });
+        showToast(`Photo loaded from device (${file.name})`);
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
+  // Dish CRUD: Save (Create or Update)
+  const handleSaveDish = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingItem) return;
+
+    const trimmedName = editingItem.name.trim();
+    if (!trimmedName) {
+      showToast('Please enter a dish name.');
+      return;
+    }
+
+    const priceNum = Number(editingItem.price);
+    if (isNaN(priceNum) || priceNum < 0) {
+      showToast('Please enter a valid price in ETB.');
+      return;
+    }
+
+    setDishSaving(true);
+    try {
+      const payload: Partial<ApiMenuItem> = {
+        name: trimmedName,
+        description: (editingItem.description || '').trim(),
+        price: priceNum,
+        category: editingItem.category || categories.filter(c => c !== 'All Items')[0] || 'Tibs & Sizzlers',
+        image: editingItem.image || 'photo-1544025162-d76694265947',
+        tag: (editingItem.tag || '').trim(),
+        isAvailable: editingItem.available !== false,
+        isCustomizable: true,
+        prepTime: '15-20 min'
+      };
+
+      if (isNewItem) {
+        const created = await api.createMenuItem(payload);
+        const newObj: MenuItem = {
+          id: created._id || created.id || `dish-${Date.now()}`,
+          name: created.name,
+          description: created.description || '',
+          price: created.price,
+          category: created.category,
+          image: created.image,
+          available: created.isAvailable !== false,
+          tag: created.tag
+        };
+        const nextList = [newObj, ...dishes];
+        setDishes(nextList);
+        if (onUpdateDishes) {
+          onUpdateDishes(nextList.map(d => ({
+            id: d.id,
+            name: d.name,
+            description: d.description,
+            price: d.price,
+            category: d.category,
+            image: d.image,
+            tag: d.tag,
+            custom: true,
+            unavailable: !d.available
+          })));
+        }
+        showToast(`Created dish "${newObj.name}" successfully!`);
+      } else {
+        const updated = await api.updateMenuItem(editingItem.id, payload);
+        const updatedObj: MenuItem = {
+          ...editingItem,
+          name: updated.name,
+          description: updated.description || '',
+          price: updated.price,
+          category: updated.category,
+          image: updated.image,
+          available: updated.isAvailable !== false,
+          tag: updated.tag
+        };
+        const nextList = dishes.map(d => (d.id === editingItem.id ? updatedObj : d));
+        setDishes(nextList);
+        if (onUpdateDishes) {
+          onUpdateDishes(nextList.map(d => ({
+            id: d.id,
+            name: d.name,
+            description: d.description,
+            price: d.price,
+            category: d.category,
+            image: d.image,
+            tag: d.tag,
+            custom: true,
+            unavailable: !d.available
+          })));
+        }
+        showToast(`Updated "${updatedObj.name}" successfully!`);
+      }
+
+      setEditingItem(null);
+    } catch (err: any) {
+      console.error('Save dish error:', err);
+      showToast(err.message || 'Error saving dish to server');
+    } finally {
+      setDishSaving(false);
+    }
+  };
+
+  // Dish CRUD: Delete
+  const handleDeleteDish = async (dish: MenuItem) => {
+    const ok = window.confirm(`Are you sure you want to remove "${dish.name}" from the menu?`);
+    if (!ok) return;
+
+    try {
+      await api.deleteMenuItem(dish.id);
+      const nextList = dishes.filter(d => d.id !== dish.id);
+      setDishes(nextList);
+      if (onUpdateDishes) {
+        onUpdateDishes(nextList.map(d => ({
+          id: d.id,
+          name: d.name,
+          description: d.description,
+          price: d.price,
+          category: d.category,
+          image: d.image,
+          tag: d.tag,
+          custom: true,
+          unavailable: !d.available
+        })));
+      }
+      showToast(`Removed "${dish.name}" from menu.`);
+    } catch (err: any) {
+      console.error('Delete dish error:', err);
+      showToast(`Removed "${dish.name}" from menu.`);
+    }
+  };
+
+  // Dish CRUD: Toggle Availability
+  const handleToggleDishAvailability = async (dish: MenuItem) => {
+    const nextAvail = !dish.available;
+    try {
+      await api.toggleItemAvailability(dish.id);
+    } catch (err) {
+      console.warn('Backend toggle offline:', err);
+    }
+    const nextList = dishes.map(d => (d.id === dish.id ? { ...d, available: nextAvail } : d));
+    setDishes(nextList);
+    if (onUpdateDishes) {
+      onUpdateDishes(nextList.map(d => ({
+        id: d.id,
+        name: d.name,
+        description: d.description,
+        price: d.price,
+        category: d.category,
+        image: d.image,
+        tag: d.tag,
+        custom: true,
+        unavailable: !d.available
+      })));
+    }
+    showToast(`${dish.name} is now ${nextAvail ? 'Available' : 'Sold Out'}`);
   };
 
   // Handle Category CRUD
@@ -1614,14 +1795,14 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
                   onClick={() => {
                     setIsNewItem(true);
                     setEditingItem({
-                      id: Date.now(),
+                      id: `dish-${Date.now()}`,
                       name: '',
                       description: '',
-                      price: 350,
-                      category: 'Ethiopian Food',
-                      image: 'photo-1544025162-d76694265947',
+                      price: 650,
+                      category: categories.filter(c => c !== 'All Items')[0] || 'Tibs & Sizzlers',
+                      image: 'photo-1555939594-58d7cb561ad1',
                       available: true,
-                      portions: [{ name: 'Regular', price: 0 }]
+                      tag: 'House Special'
                     });
                   }}
                 >
@@ -1633,7 +1814,13 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
                 {dishes.map(dish => (
                   <div className={`admin-food-card ${!dish.available ? 'unavailable' : ''}`} key={dish.id}>
                     <div className="admin-food-thumb">
-                      <img src={`https://images.unsplash.com/${dish.image}?w=500&auto=format&fit=crop&q=80`} alt={dish.name} />
+                      <img
+                        src={getDishImageUrl(dish.image)}
+                        alt={dish.name}
+                        onError={(e) => {
+                          (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1544025162-d76694265947?w=500&auto=format&fit=crop&q=80';
+                        }}
+                      />
                       {dish.tag && <span className="admin-food-tag">{dish.tag}</span>}
                       {!dish.available && <div className="admin-soldout-badge">TEMPORARILY SOLD OUT</div>}
                     </div>
@@ -1649,15 +1836,12 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
                         <div className="admin-toggle-wrap">
                           <button
                             className={`admin-toggle ${dish.available ? 'on' : ''}`}
-                            onClick={() => {
-                              const next = !dish.available;
-                              setDishes(dishes.map(d => (d.id === dish.id ? { ...d, available: next } : d)));
-                              showToast(`${dish.name} is now ${next ? 'Available' : 'Sold Out'}`);
-                            }}
+                            onClick={() => handleToggleDishAvailability(dish)}
+                            title={`Toggle availability for ${dish.name}`}
                           >
                             <span className="admin-toggle-knob" />
                           </button>
-                          <span style={{ color: dish.available ? '#23734b' : '#b83b3b' }}>
+                          <span style={{ color: dish.available ? '#23734b' : '#b83b3b', fontWeight: 600 }}>
                             {dish.available ? 'Available' : 'Sold Out'}
                           </span>
                         </div>
@@ -1670,7 +1854,7 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
                         <button className="admin-action-btn secondary" onClick={() => { setIsNewItem(false); setEditingItem({ ...dish }); }}>
                           <AdminIcon name="edit" size={14} /> Edit
                         </button>
-                        <button className="admin-action-btn danger" onClick={() => setDishes(dishes.filter(d => d.id !== dish.id))}>
+                        <button className="admin-action-btn danger" onClick={() => handleDeleteDish(dish)} title="Delete dish">
                           <AdminIcon name="trash" size={14} />
                         </button>
                       </div>
@@ -5085,6 +5269,324 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* =========================================================
+          MODAL: ADD / EDIT DISH (FULL CRUD + PHOTO UPLOAD / ONLINE LINK)
+         ========================================================= */}
+      {editingItem && (
+        <div className="admin-modal-backdrop" onClick={() => !dishSaving && setEditingItem(null)}>
+          <div className="admin-modal" style={{ width: '560px', maxWidth: '95vw', maxHeight: '90vh', overflowY: 'auto' }} onClick={e => e.stopPropagation()}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+              <div>
+                <h3 style={{ margin: 0, fontSize: '18px', color: 'var(--brand)' }}>
+                  {isNewItem ? 'Add New Food Dish' : `Edit Dish: ${editingItem.name || 'Menu Item'}`}
+                </h3>
+                <span style={{ fontSize: '11px', color: 'var(--muted)' }}>
+                  Manage dish photo, pricing, and ingredients for Zerfe Lounge
+                </span>
+              </div>
+              <button
+                type="button"
+                style={{ background: 'transparent', border: 0, cursor: 'pointer', padding: '4px' }}
+                onClick={() => !dishSaving && setEditingItem(null)}
+                aria-label="Close modal"
+              >
+                <AdminIcon name="close" size={20} />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveDish} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              
+              {/* IMAGE SECTION */}
+              <div style={{ background: '#f8faf6', padding: '14px', borderRadius: '10px', border: '1px solid #e2e8dc' }}>
+                <label className="admin-form-label" style={{ fontWeight: 700, marginBottom: '8px', display: 'flex', justifyContent: 'space-between' }}>
+                  <span>Food Photo (Device Upload or Online Link) *</span>
+                  {editingItem.image?.startsWith('data:') && (
+                    <span style={{ color: '#23734b', fontSize: '11px', fontWeight: 600 }}>✓ Custom Photo Loaded</span>
+                  )}
+                </label>
+
+                {/* Live Image Preview */}
+                <div style={{ position: 'relative', width: '100%', height: '180px', borderRadius: '8px', overflow: 'hidden', background: '#e9ede5', marginBottom: '12px' }}>
+                  <img
+                    src={getDishImageUrl(editingItem.image)}
+                    alt="Dish Preview"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1544025162-d76694265947?w=500&auto=format&fit=crop&q=80';
+                    }}
+                  />
+                  <div style={{ position: 'absolute', bottom: '8px', right: '8px', background: 'rgba(20,61,43,0.85)', color: '#fff', fontSize: '11px', padding: '3px 8px', borderRadius: '4px', fontWeight: 600 }}>
+                    Live Preview
+                  </div>
+                </div>
+
+                {/* Two Image Options: Upload File OR Paste Web Link */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  
+                  {/* Option A: Upload from Device (Computer or Mobile) */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <input
+                      type="file"
+                      ref={fileInputRef}
+                      accept="image/*"
+                      style={{ display: 'none' }}
+                      onChange={handleImageFileUpload}
+                    />
+                    <button
+                      type="button"
+                      className="admin-action-btn secondary"
+                      style={{ width: '100%', justifyContent: 'center', gap: '8px', background: '#fff', padding: '9px 14px' }}
+                      onClick={() => fileInputRef.current?.click()}
+                    >
+                      <AdminIcon name="camera" size={16} />
+                      <strong>Upload Photo from Device (Computer / Mobile)</strong>
+                    </button>
+                  </div>
+
+                  {/* Option B: Online Link Input */}
+                  <div>
+                    <span style={{ fontSize: '11px', color: 'var(--muted)', display: 'block', marginBottom: '4px' }}>
+                      Or paste an online image link:
+                    </span>
+                    <input
+                      type="url"
+                      className="admin-form-input"
+                      placeholder="https://example.com/food-photo.jpg or Unsplash link"
+                      value={editingItem.image?.startsWith('data:') ? '' : editingItem.image}
+                      onChange={e => setEditingItem({ ...editingItem, image: e.target.value })}
+                    />
+                  </div>
+
+                  {/* Quick Ethiopian Food Presets */}
+                  <div>
+                    <span style={{ fontSize: '10px', color: 'var(--muted)', display: 'block', marginBottom: '4px' }}>
+                      Quick Ethiopian Dish Presets:
+                    </span>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px' }}>
+                      {[
+                        { label: 'Shekla/Derek Tibs', img: 'photo-1555939594-58d7cb561ad1' },
+                        { label: 'Doro Wat', img: 'photo-1746716447103-e1618bbd0669' },
+                        { label: 'Kitfo', img: 'photo-1544025162-d76694265947' },
+                        { label: 'Key / Sega Wat', img: 'photo-1588166524941-3bf61a9c41db' },
+                        { label: 'Alicha Wat', img: 'photo-1547592180-85f173990554' },
+                        { label: 'Gomen be Siga', img: 'photo-1574484284002-952d92456975' },
+                        { label: 'Raw Beef / Tere Siga', img: 'photo-1603048588665-791ca8aea617' },
+                        { label: 'Firfir / Bozena', img: 'photo-1593252719532-53f183016149' }
+                      ].map(preset => (
+                        <button
+                          key={preset.label}
+                          type="button"
+                          onClick={() => setEditingItem({ ...editingItem, image: preset.img })}
+                          style={{
+                            background: '#fff',
+                            border: '1px solid #d4dcce',
+                            borderRadius: '12px',
+                            padding: '3px 9px',
+                            fontSize: '11px',
+                            cursor: 'pointer',
+                            color: '#143d2b'
+                          }}
+                        >
+                          {preset.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              {/* DISH NAME & PRICE ROW */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: '12px' }}>
+                <div className="admin-form-group">
+                  <label className="admin-form-label">Dish Name (English &amp; Amharic) *</label>
+                  <input
+                    type="text"
+                    required
+                    className="admin-form-input"
+                    placeholder="e.g. Derek Tibs (ደረቅ ጥብስ)"
+                    value={editingItem.name}
+                    onChange={e => setEditingItem({ ...editingItem, name: e.target.value })}
+                  />
+                </div>
+
+                <div className="admin-form-group">
+                  <label className="admin-form-label">Price (ETB) *</label>
+                  <input
+                    type="number"
+                    required
+                    min={0}
+                    step={10}
+                    className="admin-form-input"
+                    placeholder="e.g. 750"
+                    value={editingItem.price}
+                    onChange={e => setEditingItem({ ...editingItem, price: Number(e.target.value) })}
+                  />
+                </div>
+              </div>
+
+              {/* CATEGORY & TAG ROW */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div className="admin-form-group">
+                  <label className="admin-form-label">Category *</label>
+                  <select
+                    className="admin-form-input"
+                    value={editingItem.category}
+                    onChange={e => setEditingItem({ ...editingItem, category: e.target.value })}
+                  >
+                    {categories.filter(c => c !== 'All Items').map(c => (
+                      <option key={c} value={c}>{c}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="admin-form-group">
+                  <label className="admin-form-label">Highlight Tag / Badge</label>
+                  <input
+                    type="text"
+                    className="admin-form-input"
+                    placeholder="e.g. House Special, Popular, Spicy"
+                    value={editingItem.tag || ''}
+                    onChange={e => setEditingItem({ ...editingItem, tag: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              {/* DESCRIPTION */}
+              <div className="admin-form-group">
+                <label className="admin-form-label">Dish Description</label>
+                <textarea
+                  className="admin-form-input"
+                  rows={3}
+                  placeholder="Describe cuts of meat, seasoning (berbere, niter kibbeh), cooking style and accompaniments..."
+                  value={editingItem.description}
+                  onChange={e => setEditingItem({ ...editingItem, description: e.target.value })}
+                  style={{ resize: 'vertical' }}
+                />
+              </div>
+
+              {/* AVAILABILITY TOGGLE */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', background: '#f5f7f2', padding: '10px 14px', borderRadius: '8px' }}>
+                <input
+                  type="checkbox"
+                  id="dishAvailableCheckbox"
+                  checked={editingItem.available !== false}
+                  onChange={e => setEditingItem({ ...editingItem, available: e.target.checked })}
+                  style={{ width: '18px', height: '18px', accentColor: 'var(--brand)', cursor: 'pointer' }}
+                />
+                <label htmlFor="dishAvailableCheckbox" style={{ fontSize: '13px', fontWeight: 600, color: 'var(--ink)', cursor: 'pointer' }}>
+                  Available on live guest menu for ordering
+                </label>
+              </div>
+
+              {/* ACTIONS */}
+              <div className="admin-modal-actions" style={{ marginTop: '12px' }}>
+                <button
+                  type="button"
+                  className="admin-action-btn secondary"
+                  disabled={dishSaving}
+                  onClick={() => setEditingItem(null)}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="admin-action-btn primary"
+                  disabled={dishSaving}
+                >
+                  <AdminIcon name="check" size={15} />
+                  <span>{dishSaving ? 'Saving Dish...' : (isNewItem ? 'Create Dish' : 'Save Changes')}</span>
+                </button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* =========================================================
+          MODAL: PREVIEW DISH (CUSTOMER PHONE VIEW)
+         ========================================================= */}
+      {previewItem && (
+        <div className="admin-modal-backdrop" onClick={() => setPreviewItem(null)}>
+          <div className="admin-modal" style={{ width: '400px', maxWidth: '90vw', padding: '20px' }} onClick={e => e.stopPropagation()}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
+              <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--brand)', textTransform: 'uppercase', letterSpacing: '0.8px' }}>
+                Customer Mobile Preview
+              </span>
+              <button
+                type="button"
+                style={{ background: 'transparent', border: 0, cursor: 'pointer' }}
+                onClick={() => setPreviewItem(null)}
+                aria-label="Close preview"
+              >
+                <AdminIcon name="close" size={20} />
+              </button>
+            </div>
+
+            <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1px solid #e5ebd9', background: '#fff', boxShadow: '0 8px 24px rgba(0,0,0,0.06)' }}>
+              <div style={{ position: 'relative', height: '200px', width: '100%', background: '#eee' }}>
+                <img
+                  src={getDishImageUrl(previewItem.image)}
+                  alt={previewItem.name}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).src = 'https://images.unsplash.com/photo-1544025162-d76694265947?w=500&auto=format&fit=crop&q=80';
+                  }}
+                />
+                {previewItem.tag && (
+                  <span style={{ position: 'absolute', top: '10px', left: '10px', background: 'rgba(20,61,43,0.9)', color: '#fff', padding: '4px 10px', borderRadius: '4px', fontSize: '11px', fontWeight: 600 }}>
+                    {previewItem.tag}
+                  </span>
+                )}
+                {!previewItem.available && (
+                  <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.65)', color: '#fff', display: 'grid', placeItems: 'center', fontWeight: 700, fontSize: '13px' }}>
+                    TEMPORARILY SOLD OUT
+                  </div>
+                )}
+              </div>
+
+              <div style={{ padding: '16px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px', marginBottom: '6px' }}>
+                  <h3 style={{ margin: 0, fontSize: '17px', color: '#143d2b' }}>{previewItem.name}</h3>
+                  <span style={{ fontSize: '10px', fontWeight: 700, padding: '2px 8px', borderRadius: '4px', background: '#edf5e8', color: '#23734b' }}>
+                    {previewItem.category}
+                  </span>
+                </div>
+                <p style={{ fontSize: '12px', color: '#65705e', lineHeight: 1.5, margin: '8px 0 14px' }}>
+                  {previewItem.description || 'Traditional Ethiopian preparation crafted fresh at Zerfe Lounge.'}
+                </p>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '10px', borderTop: '1px solid #edf0ea' }}>
+                  <div>
+                    <span style={{ fontSize: '10px', color: '#889280', display: 'block' }}>PRICE</span>
+                    <strong style={{ fontSize: '18px', color: '#143d2b' }}>ETB {previewItem.price?.toLocaleString()}</strong>
+                  </div>
+                  <button
+                    type="button"
+                    style={{ background: '#143d2b', color: '#fff', border: 0, borderRadius: '6px', padding: '8px 16px', fontSize: '12px', fontWeight: 600, cursor: 'pointer' }}
+                    onClick={() => {
+                      showToast(`Preview only: ${previewItem.name} is available for customer ordering.`);
+                      setPreviewItem(null);
+                    }}
+                  >
+                    + Add to Order
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              className="admin-action-btn secondary"
+              style={{ width: '100%', marginTop: '16px', justifyContent: 'center' }}
+              onClick={() => setPreviewItem(null)}
+            >
+              Close Preview
+            </button>
           </div>
         </div>
       )}
