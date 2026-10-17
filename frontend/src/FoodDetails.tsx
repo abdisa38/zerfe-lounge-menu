@@ -89,6 +89,100 @@ function getOptions(d:DetailDish):{portions:Choice[];extras:Choice[];ingredients
    allergens:'Legumes (chickpea), dairy (butter). Injera may contain teff and wheat.'
   };
  }
+ if(name.includes('burger') || name.includes('በርገር')){
+  return {
+   portions:[
+    {name:'Single Prime Patty',price:0,description:'Juicy 180g beef patty with brioche bun'},
+    {name:'Double Patty Stacker',price:140,description:'Two 180g beef patties with double cheese'}
+   ],
+   extras:[
+    {name:'Crispy Bacon Rashers',price:60},
+    {name:'Melted Aged Cheddar',price:50},
+    {name:'Hand-Cut Golden Fries',price:70},
+    {name:'Garlic Herb Aioli Dip',price:35}
+   ],
+   ingredients:'Prime grass-fed beef patty, aged cheddar, crisp lettuce, farm-ripe tomato, caramelized balsamic red onions, and house special relish on a toasted brioche bun.',
+   allergens:'Contains gluten (brioche bun), dairy (cheddar cheese), and eggs (sauce).'
+  };
+ }
+ if(name.includes('pizza') || name.includes('ፒዛ')){
+  return {
+   portions:[
+    {name:'Medium 12"',price:0,description:'Classic 6-slice stone-baked crust'},
+    {name:'Large 16"',price:160,description:'Generous 8-slice sharing size'}
+   ],
+   extras:[
+    {name:'Extra Stretchy Mozzarella',price:70},
+    {name:'Spicy Minced Beef Sausage',price:80},
+    {name:'Fresh Basil & Garlic Olive Oil',price:35},
+    {name:'Black Olives & Sliced Jalapeños',price:40}
+   ],
+   ingredients:'Slow-fermented artisan sourdough, rich crushed San Marzano tomato sauce, whole-milk mozzarella cheese, and selected premium hotel toppings.',
+   allergens:'Contains gluten (wheat flour) and dairy (mozzarella cheese).'
+  };
+ }
+ if(name.includes('shakshuka') || name.includes('chechebsa') || name.includes('ጨጨብሳ') || name.includes('ቁርስ') || name.includes('breakfast')){
+  return {
+   portions:[
+    {name:'Regular Skillet',price:0,description:'Hot morning skillet serving'},
+    {name:'Generous Breakfast Set',price:90,description:'Includes extra bread & fresh tea'}
+   ],
+   extras:[
+    {name:'Pure Organic Bale Forest Honey',price:40},
+    {name:'Extra Spiced Clarified Butter',price:50},
+    {name:'Fresh House Yogurt (Ergo)',price:45},
+    {name:'Fresh Warm Flatbread',price:35}
+   ],
+   ingredients:'Fresh farm eggs poached in spiced tomato-chili reduction, or hand-torn crisp flatbread sautéed with fragrant niter kibbeh, berbere, and organic raw honey.',
+   allergens:'Contains eggs, dairy (clarified butter, yogurt), and gluten (flatbread).'
+  };
+ }
+ if(name.includes('spris') || name.includes('juice') || name.includes('ጭማቂ') || name.includes('coffee') || name.includes('ቡና')){
+  return {
+   portions:[
+    {name:'Regular Glass',price:0,description:'Chilled tall glass serving'},
+    {name:'Large Pot / Sharing Glass',price:60,description:'Extended morning or afternoon portion'}
+   ],
+   extras:[
+    {name:'Fresh Lime Squeeze & Mint',price:20},
+    {name:'Organic Honey Sweetener',price:30},
+    {name:'Fresh Roasted Traditional Popcorn',price:30},
+    {name:'Spiced Cardamom & Cloves Infusion',price:25}
+   ],
+   ingredients:'Layered tree-ripened Hass avocados, sunrise papayas, and tropical mangoes, or single-origin Bale highland roasted Arabica coffee brewed in a traditional jebena.',
+   allergens:'100% natural, caffeine in coffee.'
+  };
+ }
+ if(name.includes('cake') || name.includes('ኬክ') || name.includes('dessert') || name.includes('lava')){
+  return {
+   portions:[
+    {name:'Single Warm Soufflé',price:0,description:'Warm individual molten cake'},
+    {name:'Double Celebration Portion',price:120,description:'Two molten cakes with extra scoop'}
+   ],
+   extras:[
+    {name:'Artisan Vanilla Bean Ice Cream',price:60},
+    {name:'Fresh Forest Berry Coulis',price:40},
+    {name:'Toasted Crushed Hazelnuts',price:40}
+   ],
+   ingredients:'70% rich Belgian dark chocolate, European cultured butter, farm eggs, cocoa, and molten center.',
+   allergens:'Contains gluten, dairy, and eggs. May contain traces of tree nuts.'
+  };
+ }
+ if(name.includes('beyaynetu') || name.includes('በያይነቱ')){
+  return {
+   portions:[
+    {name:'Traditional Fasting Platter',price:0,description:'Array of 8 slow-simmered vegetable wats'},
+    {name:'Grand Deluxe Fasting Platter',price:130,description:'Generous platter for sharing with extra salads'}
+   ],
+   extras:[
+    {name:'Extra Injera Roll',price:45},
+    {name:'Extra Shiro Bowl',price:55},
+    {name:'Fresh Sliced Jalapeños & Tomatoes',price:30}
+   ],
+   ingredients:'Slow-cooked spicy red lentils (misir wat), yellow split pea stew (kik alicha), collard greens (gomen), green beans & carrots (fasolia), beetroot salad, and chickpea shiro served atop soft teff injera.',
+   allergens:'100% plant-based / vegan. Injera may contain teff and wheat.'
+  };
+ }
  return {
   portions:[
    {name:'Regular Serving',price:0,description:'Standard hotel portion'},
