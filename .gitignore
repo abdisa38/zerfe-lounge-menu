@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+backend/node_modules/
+frontend/node_modules/
+
+# Environment & secrets
+.env
+.env.local
+.env.*.local
+*.env
+backend/.env
+backend/.env.*
+frontend/.env
+frontend/.env.*
+!.env.example
+!backend/.env.example
+!frontend/.env.example
+
+# Build
+dist/
+build/
+frontend/dist/
+frontend/build/
+
+# Logs & Cache
+*.log
+.vite/
+.cache/
+.DS_Store
+Thumbs.db
