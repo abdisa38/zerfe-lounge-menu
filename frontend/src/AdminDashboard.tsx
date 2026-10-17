@@ -1247,19 +1247,6 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
     }
     showToast(`${dish.name} is now ${nextAvail ? 'Available' : 'Sold Out'}`);
   };
-        id: d.id,
-        name: d.name,
-        description: d.description,
-        price: d.price,
-        category: d.category,
-        image: d.image,
-        tag: d.tag,
-        custom: true,
-        unavailable: !d.available
-      })));
-    }
-    showToast(`${dish.name} is now ${nextAvail ? 'Available' : 'Sold Out'}`);
-  };
 
   // Handle Category CRUD
   const handleSaveCategory = async () => {
