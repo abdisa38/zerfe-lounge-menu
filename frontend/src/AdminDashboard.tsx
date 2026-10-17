@@ -926,7 +926,7 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
         return;
       }
       setIsExportModalOpen(false);
-      showToast(`Abay_Kitchen_Report_${selectedReportPreset.toUpperCase()}.${exportFormat} downloaded!`);
+      showToast(`Zerfe_Lounge_Report_${selectedReportPreset.toUpperCase()}.${exportFormat} downloaded!`);
     }, 850);
   };
 
@@ -1002,16 +1002,16 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
   // Handle Staff Role Login
   const handleStaffRoleLogin = (role: 'Owner' | 'Manager' | 'Kitchen' | 'Waiter') => {
     let name = 'Abebe Bekele';
-    let email = 'abebe@abaykitchen.et';
+    let email = 'abebe@zerfelounge.et';
     if (role === 'Manager') {
       name = 'Tigist Alemu';
-      email = 'tigist@abaykitchen.et';
+      email = 'tigist@zerfelounge.et';
     } else if (role === 'Kitchen') {
       name = 'Dawit Hailu';
-      email = 'dawit@abaykitchen.et';
+      email = 'dawit@zerfelounge.et';
     } else if (role === 'Waiter') {
       name = 'Sara Girma';
-      email = 'sara@abaykitchen.et';
+      email = 'sara@zerfelounge.et';
     }
     setActiveStaffUser({ name, role, email });
     setShowStaffLoginModal(false);
@@ -1048,9 +1048,9 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
     } else {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(addForm.email.trim())) {
-        errors.email = 'Enter a valid email address (e.g. name@abaykitchen.com)';
+        errors.email = 'Enter a valid email address (e.g. name@zerfelounge.et)';
       } else if (staffMembers.some(s => s.email.toLowerCase() === addForm.email.trim().toLowerCase())) {
-        errors.email = 'A staff account with this email already exists in Abay Kitchen';
+        errors.email = 'A staff account with this email already exists in Zerfe Lounge';
       }
     }
 
@@ -1211,8 +1211,8 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
           </a>
           <div className="admin-restaurant-selector" title="Active Branch">
             <div>
-              <strong>Abay Kitchen</strong>
-              <small>Bole · Addis Ababa</small>
+              <strong>Zerfe Lounge</strong>
+              <small>Bale Robe · Oromia</small>
             </div>
           </div>
         </div>
@@ -1338,7 +1338,7 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
               <AdminIcon name="hamburger" size={20} />
             </button>
             <div className="admin-breadcrumb">
-              <span>Abay Kitchen</span>
+              <span>Zerfe Lounge</span>
               <span>/</span>
               <strong>
                 {activeTab === 'overview'
@@ -1383,7 +1383,7 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
               <div className="admin-page-header">
                 <div>
                   <h1>Universal Restaurant QR Code</h1>
-                  <p>One official QR code for all tables, stands, and counter cards at Abay Kitchen.</p>
+                  <p>One official QR code for all tables, stands, and counter cards at Zerfe Lounge.</p>
                 </div>
                 <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                   <button
@@ -1426,14 +1426,14 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
                   </span>
 
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#143D2B', marginBottom: '6px' }}>
-                    <span style={{ fontFamily: 'Georgia, serif', fontSize: '32px', fontStyle: 'italic', fontWeight: 700, color: '#143D2B' }}>
-                      a<span style={{ color: '#C69234' }}>k</span>
+                    <span style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: '32px', fontStyle: 'italic', fontWeight: 700, color: '#143D2B' }}>
+                      z<span style={{ color: '#C69234' }}>l</span>
                     </span>
-                    <strong style={{ fontSize: '18px', letterSpacing: '1px' }}>ABAY KITCHEN</strong>
+                    <strong style={{ fontSize: '18px', letterSpacing: '1px' }}>ZERFE LOUNGE</strong>
                   </div>
 
                   <p style={{ margin: '0 0 20px', fontSize: '12px', color: '#6e766c', letterSpacing: '0.5px' }}>
-                    ROOTED IN TRADITION · MADE WITH LOVE
+                    HOTEL &amp; LUXURY DINING · BALE ROBE
                   </p>
 
                   {/* QR Code Container */}
@@ -1486,7 +1486,7 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
                       <AdminIcon name="qr" size={18} /> Universal QR Code Setup
                     </h3>
                     <p style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: 1.6, margin: '0 0 16px' }}>
-                      You no longer need individual QR codes for each table number. This single universal QR code connects every guest to the full interactive Abay Kitchen menu.
+                      You no longer need individual QR codes for each table number. This single universal QR code connects every guest to the full interactive Zerfe Lounge menu.
                     </p>
 
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -2119,7 +2119,7 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
                           One QR For All Tables
                         </span>
                         <h4 style={{ margin: '2px 0 4px', fontSize: '15px', color: '#143D2B' }}>
-                          Abay Kitchen Digital Menu
+                          Zerfe Lounge Digital Menu
                         </h4>
                         <p style={{ margin: 0, fontSize: '12px', color: 'var(--muted)', lineHeight: 1.4 }}>
                           Set this single QR code on every dining table. Guests scan to order with instant kitchen delivery.
@@ -2562,7 +2562,7 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
                   <div className="admin-page-header">
                     <div>
                       <h1>Reports & Analytics</h1>
-                      <p>Sales and operational performance for Abay Kitchen.</p>
+                      <p>Sales and operational performance for Zerfe Lounge.</p>
                     </div>
 
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -3533,7 +3533,7 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
               <div>
                 <h3 style={{ margin: 0 }}>{selectedQRTable.number} QR Code</h3>
-                <span style={{ fontSize: '11px', color: 'var(--muted)' }}>Abay Kitchen · {selectedQRTable.area}</span>
+                <span style={{ fontSize: '11px', color: 'var(--muted)' }}>Zerfe Lounge · {selectedQRTable.area}</span>
               </div>
               <button style={{ background: 'transparent', border: 0, cursor: 'pointer' }} onClick={() => setSelectedQRTable(null)}>
                 <AdminIcon name="close" size={20} />
@@ -3548,11 +3548,11 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
 
               {/* Destination URL */}
               <div className="admin-qr-url-box">
-                <span>https://gebetaqr.com/r/abay-kitchen/t/{selectedQRTable.qrToken}</span>
+                <span>https://gebetaqr.com/r/zerfe-lounge/t/{selectedQRTable.qrToken}</span>
                 <button
                   style={{ background: 'transparent', border: 0, color: 'var(--brand)', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
                   onClick={() => {
-                    navigator.clipboard?.writeText(`https://gebetaqr.com/r/abay-kitchen/t/${selectedQRTable.qrToken}`);
+                    navigator.clipboard?.writeText(`https://gebetaqr.com/r/zerfe-lounge/t/${selectedQRTable.qrToken}`);
                     showToast('Table ordering link copied to clipboard!');
                   }}
                   title="Copy Link"
@@ -3648,8 +3648,8 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
             {/* 1. Compact Tabletop Card Preview */}
             {printConcept === 'card' && (
               <div className="admin-print-card-preview">
-                <div className="admin-print-card-brand">ABAY KITCHEN</div>
-                <div className="admin-print-card-sub">ROOTED IN TRADITION · MADE WITH LOVE</div>
+                <div className="admin-print-card-brand">ZERFE LOUNGE</div>
+                <div className="admin-print-card-sub">HOTEL & LUXURY DINING · BALE ROBE</div>
                 <div className="admin-print-card-table">{printModalTable.number.toUpperCase()}</div>
                 <div className="admin-print-card-qr">
                   <TableQRCodeSVG size={140} tableNumber={printModalTable.number} />
@@ -3663,7 +3663,7 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
             {printConcept === 'tent' && (
               <div className="admin-tent-card-preview">
                 <div className="admin-tent-panel">
-                  <strong style={{ fontSize: '14px', color: 'var(--brand)' }}>ABAY KITCHEN</strong>
+                  <strong style={{ fontSize: '14px', color: 'var(--brand)' }}>ZERFE LOUNGE</strong>
                   <p style={{ fontSize: '10px', color: 'var(--muted)', margin: '4px 0 12px' }}>{printModalTable.number}</p>
                   <TableQRCodeSVG size={105} tableNumber={printModalTable.number} />
                   <p style={{ fontSize: '10px', fontWeight: 600, color: 'var(--brand)', marginTop: '8px' }}>Scan to Order</p>
@@ -3682,7 +3682,7 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
             {printConcept === 'bulk' && (
               <div className="admin-bulk-sheet">
                 <div style={{ textAlign: 'center', marginBottom: '14px', borderBottom: '1px solid #e2e5dc', paddingBottom: '8px' }}>
-                  <strong style={{ fontSize: '13px', color: 'var(--brand)' }}>ABAY KITCHEN — ALL TABLES QR PRINT SHEET</strong>
+                  <strong style={{ fontSize: '13px', color: 'var(--brand)' }}>ZERFE LOUNGE — ALL TABLES QR PRINT SHEET</strong>
                   <span style={{ display: 'block', fontSize: '10px', color: 'var(--muted)' }}>Cut along dashed lines and place on dining tables</span>
                 </div>
                 <div className="admin-bulk-grid">
@@ -3799,7 +3799,7 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
               <div>
                 <h3 style={{ margin: 0 }}>Add Staff Member</h3>
-                <span style={{ fontSize: '11px', color: 'var(--muted)' }}>Send an invitation link to join Abay Kitchen</span>
+                <span style={{ fontSize: '11px', color: 'var(--muted)' }}>Send an invitation link to join Zerfe Lounge</span>
               </div>
               <button style={{ background: 'transparent', border: 0, cursor: 'pointer' }} onClick={() => setIsAddStaffOpen(false)}>
                 <AdminIcon name="close" size={20} />
@@ -3879,7 +3879,7 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
                     <label>Email Address *</label>
                     <input
                       type="email"
-                      placeholder="e.g. almaz@abaykitchen.com"
+                      placeholder="e.g. almaz@zerfelounge.et"
                       value={addForm.email}
                       onChange={e => {
                         setAddForm({ ...addForm, email: e.target.value });
@@ -3931,7 +3931,7 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
                   <label>Invitation Note (Optional)</label>
                   <textarea
                     rows={2}
-                    placeholder="e.g. Welcome to the Abay Kitchen team! Look forward to working together."
+                    placeholder="e.g. Welcome to the Zerfe Lounge team! Look forward to working together."
                     value={addForm.note}
                     onChange={e => setAddForm({ ...addForm, note: e.target.value })}
                   />
@@ -4132,7 +4132,7 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
 
               <div className="admin-profile-stat-box">
                 <span className="stat-label">Restaurant Workspace</span>
-                <strong>Abay Kitchen (Bole)</strong>
+                <strong>Zerfe Lounge (Bale Robe)</strong>
               </div>
 
               <div className="admin-profile-stat-box">
@@ -4263,7 +4263,7 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
                 <AdminIcon name="alertTriangle" size={18} />
                 <div>
                   <strong>Primary Owner Cannot Be Demoted</strong>
-                  <p>Abay Kitchen requires at least one active Owner. Transfer workspace ownership before changing this role.</p>
+                  <p>Zerfe Lounge requires at least one active Owner. Transfer workspace ownership before changing this role.</p>
                 </div>
               </div>
             ) : (
@@ -4353,7 +4353,7 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
                   <AdminIcon name="alertTriangle" size={18} />
                   <div>
                     <strong>Access Revocation Notice</strong>
-                    <p>The staff member will immediately lose access to the Abay Kitchen dashboard. All historical order entries, kitchen preparation logs, and payment records remain preserved in the system.</p>
+                    <p>The staff member will immediately lose access to the Zerfe Lounge dashboard. All historical order entries, kitchen preparation logs, and payment records remain preserved in the system.</p>
                   </div>
                 </div>
                 <p style={{ fontSize: '12px', color: 'var(--muted)', margin: 0 }}>
@@ -4399,7 +4399,7 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
             <div className="admin-modal-header">
               <div>
                 <h3 className="admin-modal-title">Export Report Studio</h3>
-                <p className="admin-modal-subtitle">Download analytical reports and operational audits for Abay Kitchen</p>
+                <p className="admin-modal-subtitle">Download analytical reports and operational audits for Zerfe Lounge</p>
               </div>
               <button
                 className="admin-icon-btn"
@@ -4450,7 +4450,7 @@ export default function AdminDashboard({ sharedOrders, onUpdateOrders, onNavigat
                     </div>
                     <div style={{ textAlign: 'left' }}>
                       <div className="admin-export-format-name">Printable PDF Report (.pdf)</div>
-                      <div className="admin-export-format-desc">Formatted executive summary with Abay Kitchen letterhead and charts.</div>
+                      <div className="admin-export-format-desc">Formatted executive summary with Zerfe Lounge letterhead and charts.</div>
                     </div>
                   </button>
                 </div>
