@@ -1,0 +1,15 @@
+{
+  "title": "GebetaQR — Digital Menu & Restaurant Management",
+  "description": "Smart QR-code digital ordering, live kitchen management, and customer dining for Ethiopian restaurants.",
+  "language": "en",
+  "icons": {
+    "icon": "/favicon.svg"
+  },
+  "robots": {
+    "index": true
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
