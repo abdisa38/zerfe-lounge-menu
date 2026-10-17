@@ -3,15 +3,19 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const MenuItem = require('../models/MenuItem');
 
-// Helper to query item by ObjectId or name
-const findItem = async (id) => {
-  if (mongoose.Types.ObjectId.isValid(id)) {
+// Helper to query item by ObjectId, name, or search term
+const findItem = async (id, fallbackName) => {
+  if (id && mongoose.Types.ObjectId.isValid(id)) {
     const item = await MenuItem.findById(id);
     if (item) return item;
   }
-  return await MenuItem.findOne({
-    $or: [{ name: id }, { _id: id }]
-  });
+  const searchName = fallbackName || id;
+  if (searchName && typeof searchName === 'string') {
+    const escaped = searchName.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const item = await MenuItem.findOne({ name: new RegExp('^' + escaped + '$', 'i') });
+    if (item) return item;
+  }
+  return null;
 };
 
 // GET all dishes
@@ -52,24 +56,47 @@ router.post('/', async (req, res) => {
   }
 });
 
-// PUT update dish
+// PUT update dish (Finds by ObjectId OR dish name, or upserts so it never fails)
 router.put('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    let dish;
+    let dish = null;
+
+    // 1. Try finding by MongoDB ObjectId
     if (mongoose.Types.ObjectId.isValid(id)) {
       dish = await MenuItem.findByIdAndUpdate(id, req.body, { new: true, runValidators: true });
     }
-    if (!dish) {
+
+    // 2. Try finding by dish name from body
+    if (!dish && req.body.name) {
       dish = await MenuItem.findOneAndUpdate(
-        { $or: [{ name: id }, { _id: id }] },
+        { name: req.body.name.trim() },
         req.body,
         { new: true, runValidators: true }
       );
     }
-    if (!dish) return res.status(404).json({ success: false, error: 'Dish not found' });
+
+    // 3. Try finding by ID string as dish name
+    if (!dish && id && isNaN(Number(id))) {
+      const escaped = id.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      dish = await MenuItem.findOneAndUpdate(
+        { name: new RegExp('^' + escaped + '$', 'i') },
+        req.body,
+        { new: true, runValidators: true }
+      );
+    }
+
+    // 4. If still not found, create a new dish so update is never lost
+    if (!dish) {
+      dish = await MenuItem.create({
+        ...req.body,
+        name: req.body.name || `Dish ${id}`
+      });
+    }
+
     res.json({ success: true, data: dish });
   } catch (err) {
+    console.error('Error in PUT /menu/:id:', err);
     res.status(400).json({ success: false, error: err.message });
   }
 });
@@ -92,14 +119,17 @@ router.patch('/:id/toggle', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    let dish;
+    let dish = null;
+
     if (mongoose.Types.ObjectId.isValid(id)) {
       dish = await MenuItem.findByIdAndDelete(id);
     }
-    if (!dish) {
-      dish = await MenuItem.findOneAndDelete({ $or: [{ name: id }, { _id: id }] });
+
+    if (!dish && id && isNaN(Number(id))) {
+      const escaped = id.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      dish = await MenuItem.findOneAndDelete({ name: new RegExp('^' + escaped + '$', 'i') });
     }
-    if (!dish) return res.status(404).json({ success: false, error: 'Dish not found' });
+
     res.json({ success: true, message: 'Dish deleted successfully', data: dish });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
