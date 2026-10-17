@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Button, Icon } from './Foundation';
 import type { CartLine } from './FoodDetails';
+import { getDishImageUrl } from './api';
 import './tracking.css';
 export type SessionOrder={reference:string;placedAt:string;lines:CartLine[];status:string;customerName?:string;paymentMethod?:string;paymentStatus?:string;feedback?:boolean};
 const stages=[{name:'Received',text:'Your order has arrived. Waiting for staff to accept it.'},{name:'Accepted',text:'The restaurant has accepted your order.'},{name:'Preparing',text:'The kitchen is preparing your dishes.'},{name:'Ready',text:'Your order is ready. Your server will assist you.'},{name:'Completed',text:'The restaurant has marked your order complete.'}];
